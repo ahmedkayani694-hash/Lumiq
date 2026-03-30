@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumiq — AI Physics Tutor for A & O Levels</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c26;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #f0eff5;
+    --muted: #8b8a99;
+    --accent: #7c6af7;
+    --accent2: #a594f9;
+    --accent-glow: rgba(124,106,247,0.15);
+    --green: #4ade80;
+    --green-bg: rgba(74,222,128,0.1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--text); letter-spacing: -0.02em; }
+  .logo span { color: var(--accent2); }
+  .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+  .nav-links a { font-size: 0.875rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: var(--accent); color: white; border: none;
+    padding: 0.5rem 1.25rem; border-radius: 8px;
+    font-size: 0.875rem; font-weight: 500; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,106,247,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--surface); border: 1px solid var(--border2);
+    padding: 0.35rem 0.85rem; border-radius: 20px;
+    font-size: 0.75rem; color: var(--muted); margin-bottom: 2rem;
+  }
+  .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.1; letter-spacing: -0.03em;
+    margin-bottom: 1.25rem; max-width: 800px;
+  }
+  h1 em { font-style: italic; color: var(--accent2); }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--muted); max-width: 480px;
+    line-height: 1.7; margin-bottom: 2.5rem;
+  }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .btn-primary {
+    background: var(--accent); color: white; border: none;
+    padding: 0.85rem 2rem; border-radius: 10px;
+    font-size: 0.95rem; font-weight: 500; cursor: pointer;
+    transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border2);
+    padding: 0.85rem 2rem; border-radius: 10px;
+    font-size: 0.95rem; font-weight: 400; cursor: pointer;
+    transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+  }
+  .btn-secondary:hover { background: var(--surface); }
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin-top: 3.5rem;
+    padding-top: 2.5rem; border-top: 1px solid var(--border);
+    flex-wrap: wrap; justify-content: center;
+  }
+  .stat p:first-child { font-size: 1.5rem; font-weight: 500; color: var(--text); }
+  .stat p:last-child { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+
+  /* CHAT DEMO */
+  .section { padding: 5rem 2rem; max-width: 960px; margin: 0 auto; }
+  .section-label { font-size: 0.75rem; letter-spacing: 0.1em; color: var(--accent2); text-transform: uppercase; margin-bottom: 0.75rem; }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.2; margin-bottom: 1rem; }
+  .section-sub { font-size: 0.95rem; color: var(--muted); max-width: 480px; line-height: 1.7; margin-bottom: 3rem; }
+
+  .chat-window {
+    background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 16px; overflow: hidden;
+  }
+  .chat-header {
+    padding: 1rem 1.25rem; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .chat-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--accent-glow); border: 1px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; color: var(--accent2); font-weight: 500;
+  }
+  .chat-header-info p:first-child { font-size: 0.875rem; font-weight: 500; }
+  .chat-header-info p:last-child { font-size: 0.75rem; color: var(--green); }
+  .chat-messages {
+    padding: 1.25rem; display: flex; flex-direction: column;
+    gap: 12px; min-height: 320px; max-height: 420px; overflow-y: auto;
+  }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+  .msg { display: flex; flex-direction: column; max-width: 80%; }
+  .msg.user { align-self: flex-end; align-items: flex-end; }
+  .msg.ai { align-self: flex-start; align-items: flex-start; }
+  .bubble {
+    padding: 0.75rem 1rem; border-radius: 12px;
+    font-size: 0.875rem; line-height: 1.6; white-space: pre-wrap;
+  }
+  .bubble.user { background: var(--accent); color: white; border-radius: 12px 12px 2px 12px; }
+  .bubble.ai { background: var(--surface2); color: var(--text); border-radius: 12px 12px 12px 2px; }
+  .msg-name { font-size: 0.7rem; color: var(--muted); margin-bottom: 4px; }
+  .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 0.75rem 1rem; background: var(--surface2); border-radius: 12px 12px 12px 2px; width: fit-content; }
+  .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); animation: pulse 1.2s infinite; }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes pulse { 0%,80%,100%{opacity:0.3} 40%{opacity:1} }
+
+  .chat-input-area {
+    padding: 1rem 1.25rem; border-top: 1px solid var(--border);
+    display: flex; gap: 8px; align-items: flex-end;
+  }
+  .chat-input-area textarea {
+    flex: 1; background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 10px; padding: 0.65rem 0.9rem;
+    color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem; resize: none; outline: none;
+    transition: border-color 0.2s; line-height: 1.5;
+  }
+  .chat-input-area textarea:focus { border-color: var(--accent); }
+  .chat-input-area textarea::placeholder { color: var(--muted); }
+  .send-btn {
+    background: var(--accent); color: white; border: none;
+    width: 38px; height: 38px; border-radius: 10px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.2s; flex-shrink: 0;
+  }
+  .send-btn:hover { opacity: 0.85; }
+  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .quick-btns { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 1.25rem 0.75rem; }
+  .quick-btn {
+    font-size: 0.75rem; color: var(--muted); background: var(--surface2);
+    border: 1px solid var(--border); border-radius: 20px;
+    padding: 0.3rem 0.75rem; cursor: pointer; transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .quick-btn:hover { color: var(--text); border-color: var(--border2); }
+  .trial-note { font-size: 0.75rem; color: var(--muted); text-align: center; padding: 0.5rem; }
+  .trial-note a { color: var(--accent2); cursor: pointer; text-decoration: none; }
+
+  /* TOPICS */
+  .topics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+  .topic-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .topic-card:hover { border-color: var(--border2); background: var(--surface2); }
+  .topic-icon { font-size: 1.25rem; margin-bottom: 0.5rem; }
+  .topic-card p:first-of-type { font-size: 0.875rem; font-weight: 500; margin-bottom: 2px; }
+  .topic-card p:last-of-type { font-size: 0.75rem; color: var(--muted); }
+
+  /* PRICING */
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .price-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 1.5rem;
+  }
+  .price-card.featured {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, rgba(124,106,247,0.08), var(--surface));
+  }
+  .plan-name { font-size: 0.8rem; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .plan-price { font-family: 'DM Serif Display', serif; font-size: 2.2rem; margin-bottom: 4px; }
+  .plan-price span { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 400; color: var(--muted); }
+  .plan-desc { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.25rem; }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.5rem; }
+  .plan-features li { font-size: 0.825rem; color: var(--muted); display: flex; gap: 8px; align-items: flex-start; }
+  .plan-features li::before { content: '✓'; color: var(--green); font-size: 0.75rem; flex-shrink: 0; margin-top: 1px; }
+  .plan-features li.no { color: rgba(139,138,153,0.5); }
+  .plan-features li.no::before { content: '–'; color: rgba(139,138,153,0.3); }
+  .plan-btn {
+    width: 100%; padding: 0.75rem; border-radius: 10px;
+    font-size: 0.875rem; font-weight: 500; cursor: pointer;
+    transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+  }
+  .plan-btn.outline { background: transparent; color: var(--text); border: 1px solid var(--border2); }
+  .plan-btn.outline:hover { background: var(--surface2); }
+  .plan-btn.filled { background: var(--accent); color: white; border: none; }
+  .plan-btn.filled:hover { opacity: 0.88; }
+  .popular-badge {
+    display: inline-block; font-size: 0.7rem; font-weight: 500;
+    background: var(--accent-glow); color: var(--accent2);
+    border: 1px solid rgba(124,106,247,0.3);
+    padding: 2px 10px; border-radius: 20px; margin-bottom: 10px;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem; text-align: center;
+    font-size: 0.8rem; color: var(--muted);
+  }
+  footer a { color: var(--muted); text-decoration: none; }
+
+  /* SCREENS */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  @media (max-width: 600px) {
+    nav { padding: 0.85rem 1.25rem; }
+    .hero { padding: 7rem 1.25rem 3rem; }
+    .section { padding: 3.5rem 1.25rem; }
+    .hero-stats { gap: 1.5rem; }
+    .chat-messages { min-height: 260px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Lum<span>iq</span></div>
+  <div class="nav-links">
+    <a href="#topics">Topics</a>
+    <a href="#pricing">Pricing</a>
+    <button class="nav-cta" onclick="scrollToChat()">Try free</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge"><span class="dot"></span>AI tutor — always online</div>
+  <h1>Physics made <em>simple</em><br>for A & O levels</h1>
+  <p class="hero-sub">Ask any physics question. Get clear, step-by-step answers instantly. Built for CIE, Edexcel, and AQA students.</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="scrollToChat()">Start learning free</button>
+    <button class="btn-secondary" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">See pricing</button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><p>50+</p><p>Topics covered</p></div>
+    <div class="stat"><p>A & O</p><p>Level support</p></div>
+    <div class="stat"><p>24/7</p><p>Always available</p></div>
+    <div class="stat"><p>$6</p><p>Per month</p></div>
+  </div>
+</section>
+
+<!-- CHAT -->
+<section class="section" id="chat">
+  <div class="section-label">Live demo</div>
+  <div class="section-title">Ask anything. Right now.</div>
+  <p class="section-sub">Try Lumiq for free — no signup needed. Ask a real physics question.</p>
+
+  <div class="chat-window">
+    <div class="chat-header">
+      <div class="chat-avatar">L</div>
+      <div class="chat-header-info">
+        <p>Lumiq AI Tutor</p>
+        <p>Online now</p>
+      </div>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg ai">
+        <p class="msg-name">Lumiq</p>
+        <div class="bubble ai">Hi! I'm your Lumiq physics tutor. I can help with any A-level or O-level physics topic — concepts, formulas, past paper questions, or exam technique.
+
+What would you like to work on today?</div>
+      </div>
+    </div>
+    <div class="quick-btns" id="quickBtns">
+      <button class="quick-btn" onclick="quickAsk("Explain Newton's second law with an example")">Newton's laws</button>
+      <button class="quick-btn" onclick="quickAsk('What is the difference between transverse and longitudinal waves?')">Waves</button>
+      <button class="quick-btn" onclick="quickAsk('Help me understand Ohm\'s law and how to use it in circuits')">Ohm's law</button>
+      <button class="quick-btn" onclick="quickAsk('Quiz me on kinematics equations')">Quiz me</button>
+    </div>
+    <div class="chat-input-area">
+      <textarea id="userInput" placeholder="Ask a physics question..." rows="1"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
+        oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+    <p class="trial-note" id="trialNote">3 free questions · <a onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Upgrade for unlimited</a></p>
+  </div>
+</section>
+
+<!-- TOPICS -->
+<section class="section" id="topics">
+  <div class="section-label">Curriculum</div>
+  <div class="section-title">Every topic covered</div>
+  <p class="section-sub">From basics to advanced. Aligned with CIE, Edexcel and AQA syllabi.</p>
+  <div class="topics-grid">
+    <div class="topic-card"><div class="topic-icon">⚡</div><p>Mechanics</p><p>Motion, forces, energy</p></div>
+    <div class="topic-card"><div class="topic-icon">〜</div><p>Waves</p><p>Sound, light, EM spectrum</p></div>
+    <div class="topic-card"><div class="topic-icon">🔋</div><p>Electricity</p><p>Circuits, Ohm's law</p></div>
+    <div class="topic-card"><div class="topic-icon">🌡</div><p>Thermal physics</p><p>Heat, gas laws</p></div>
+    <div class="topic-card"><div class="topic-icon">⚛</div><p>Nuclear physics</p><p>Atoms, radioactivity</p></div>
+    <div class="topic-card"><div class="topic-icon">🔭</div><p>Fields</p><p>Gravity, electric, magnetic</p></div>
+    <div class="topic-card"><div class="topic-icon">💡</div><p>Quantum</p><p>Photoelectric, wave-particle</p></div>
+    <div class="topic-card"><div class="topic-icon">📐</div><p>Measurements</p><p>Units, uncertainty, data</p></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="section-label">Pricing</div>
+  <div class="section-title">Less than one tutor session</div>
+  <p class="section-sub">Start free. Upgrade when you're ready. Cancel anytime.</p>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <p class="plan-name">Free</p>
+      <p class="plan-price">$0</p>
+      <p class="plan-desc">To get started</p>
+      <ul class="plan-features">
+        <li>3 questions per day</li>
+        <li>Core topics only</li>
+        <li class="no">Past paper solving</li>
+        <li class="no">Exam quizzes</li>
+        <li class="no">Unlimited questions</li>
+      </ul>
+      <button class="plan-btn outline" onclick="scrollToChat()">Try free</button>
+    </div>
+    <div class="price-card featured">
+      <div class="popular-badge">Most popular</div>
+      <p class="plan-name">Student</p>
+      <p class="plan-price">$6 <span>/ month</span></p>
+      <p class="plan-desc">For serious students</p>
+      <ul class="plan-features">
+        <li>Unlimited questions</li>
+        <li>All A & O level topics</li>
+        <li>Past paper solving</li>
+        <li>Exam quizzes</li>
+        <li>3-day free trial</li>
+      </ul>
+      <button class="plan-btn filled" onclick="window.open('https://kayani784.gumroad.com/l/mvysxi','_blank')">Get Student plan</button>
+    </div>
+  </div>
+  <p style="font-size:0.8rem;color:var(--muted);text-align:center;margin-top:1.25rem;">30-day money-back guarantee · Cancel anytime · No hidden fees</p>
+</section>
+
+<footer>
+  <p>© 2026 Lumiq · AI physics tutoring for A & O level students</p>
+  <p style="margin-top:6px;"><a href="mailto:support@lumiq.app">support@lumiq.app</a></p>
+</footer>
+
+<script>
+  const GROQ_API = 'https://api.groq.com/openai/v1/chat/completions';
+  const GROQ_KEY = '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';
+  const SYSTEM = `You are Lumiq, an expert AI physics tutor for A-level and O-level students (CIE, Edexcel, AQA).
+You explain concepts clearly and step-by-step. Show all working when solving problems.
+Use simple language. Be encouraging. Keep responses focused and not too long.
+Format equations clearly using text (e.g. F = ma, v² = u² + 2as).
+If a student seems stuck, offer a hint before the full solution.`;
+
+  let history = [];
+  let freeCount = 0;
+  const FREE_LIMIT = 3;
+
+  function scrollToChat() {
+    document.getElementById('chat').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => document.getElementById('userInput').focus(), 600);
+  }
+
+  function quickAsk(text) {
+    document.getElementById('userInput').value = text;
+    sendMessage();
+  }
+
+  function addMessage(text, role) {
+    const box = document.getElementById('chatMessages');
+    const wrap = document.createElement('div');
+    wrap.className = 'msg ' + (role === 'user' ? 'user' : 'ai');
+    const name = document.createElement('p');
+    name.className = 'msg-name';
+    name.textContent = role === 'user' ? 'You' : 'Lumiq';
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble ' + (role === 'user' ? 'user' : 'ai');
+    bubble.textContent = text;
+    wrap.appendChild(name);
+    wrap.appendChild(bubble);
+    box.appendChild(wrap);
+    box.scrollTop = box.scrollHeight;
+    return wrap;
+  }
+
+  function addTyping() {
+    const box = document.getElementById('chatMessages');
+    const wrap = document.createElement('div');
+    wrap.className = 'msg ai';
+    wrap.id = 'typing';
+    const name = document.createElement('p');
+    name.className = 'msg-name';
+    name.textContent = 'Lumiq';
+    const indicator = document.createElement('div');
+    indicator.className = 'typing-indicator';
+    indicator.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    wrap.appendChild(name);
+    wrap.appendChild(indicator);
+    box.appendChild(wrap);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('userInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    if (freeCount >= FREE_LIMIT) {
+      addMessage("You've used your 3 free questions! Subscribe to the Student plan for unlimited help.", 'ai');
+      setTimeout(() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' }), 1500);
+      return;
+    }
+
+    freeCount++;
+    const remaining = FREE_LIMIT - freeCount;
+    const note = document.getElementById('trialNote');
+    if (remaining > 0) {
+      note.innerHTML = remaining + ' free question' + (remaining !== 1 ? 's' : '') + ' left · <a onclick="document.getElementById(\'pricing\').scrollIntoView({behavior:\'smooth\'})">Upgrade for unlimited</a>';
+    } else {
+      note.innerHTML = 'No free questions left · <a onclick="document.getElementById(\'pricing\').scrollIntoView({behavior:\'smooth\'})">Upgrade for unlimited ↗</a>';
+    }
+
+    input.value = '';
+    input.style.height = 'auto';
+    document.getElementById('quickBtns').style.display = 'none';
+
+    addMessage(text, 'user');
+    history.push({ role: 'user', content: text });
+
+    const btn = document.getElementById('sendBtn');
+    btn.disabled = true;
+    addTyping();
+
+    try {
+      const res = await fetch(GROQ_API, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + GROQ_KEY
+        },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          max_tokens: 800,
+          messages: [
+            { role: 'system', content: SYSTEM },
+            ...history
+          ]
+        })
+      });
+      const data = await res.json();
+      document.getElementById('typing')?.remove();
+      const reply = data.choices?.[0]?.message?.content || 'Sorry, something went wrong. Please try again.';
+      history.push({ role: 'assistant', content: reply });
+      addMessage(reply, 'ai');
+    } catch (e) {
+      document.getElementById('typing')?.remove();
+      addMessage('Connection error. Please check your internet and try again.', 'ai');
+    }
+
+    btn.disabled = false;
+    input.focus();
+  }
+</script>
+</body>
+</html>
