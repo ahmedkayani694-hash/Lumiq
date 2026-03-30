@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Lumiq — AI Physics Tutor for A & O Levels</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  /* ===== CSS remains exactly the same as previous working version ===== */
+  /* ===== All styles remain exactly as in the last working version ===== */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
@@ -35,6 +36,7 @@
     position: relative;
   }
 
+  /* floating trial bubble */
   .trial-bubble {
     position: fixed;
     bottom: 2rem;
@@ -139,8 +141,8 @@
   }
 
   .nav-cta {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: white;
+    background: #ffffff;
+    color: var(--accent);
     border: none;
     padding: 0.6rem 1.4rem;
     border-radius: 10px;
@@ -148,11 +150,12 @@
     font-weight: 600;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 2px 10px rgba(124,106,247,0.5);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
   }
   .nav-cta:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(124,106,247,0.7);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    background: #f5f5f5;
   }
   .nav-cta:active { transform: scale(0.97); }
 
@@ -187,21 +190,36 @@
     backdrop-filter: blur(4px);
   }
   .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+
+  /* heading with glow on the whole word */
   h1 {
-    font-family: 'DM Serif Display', serif;
+    font-family: 'Playfair Display', serif;
     font-size: clamp(2.5rem, 6vw, 4.8rem);
-    line-height: 1.1; letter-spacing: -0.03em;
-    margin-bottom: 1.25rem; max-width: 800px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.25rem;
+    max-width: 800px;
     background: linear-gradient(135deg, #fff, var(--accent2));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
-  h1 em { font-style: italic; color: var(--accent2); background: none; -webkit-background-clip: unset; background-clip: unset; }
-  .hero-sub {
-    font-size: 1.1rem; color: var(--muted); max-width: 520px;
-    line-height: 1.7; margin-bottom: 2.5rem;
+
+  h1 em {
+    font-style: italic;
+    color: transparent;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    text-shadow: 0 0 20px rgba(165, 148, 249, 0.8), 0 0 40px rgba(124, 106, 247, 0.5);
+    animation: gentlePulse 2s infinite alternate;
   }
+
+  @keyframes gentlePulse {
+    0% { text-shadow: 0 0 20px rgba(165, 148, 249, 0.6), 0 0 40px rgba(124, 106, 247, 0.3); }
+    100% { text-shadow: 0 0 28px rgba(165, 148, 249, 0.9), 0 0 50px rgba(124, 106, 247, 0.6); }
+  }
+
   .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 
   .btn-primary {
@@ -414,7 +432,6 @@
     box-shadow: 0 4px 12px rgba(124,106,247,0.4);
   }
 
-  /* topic cards for notes library */
   .topic-library {
     display: none;
     margin-top: 2rem;
@@ -455,6 +472,8 @@
     padding: 1rem;
     margin-top: 2rem;
     display: none;
+    flex-direction: column;
+    gap: 1rem;
   }
   .pdf-viewer iframe {
     width: 100%;
@@ -471,19 +490,29 @@
     border-radius: 8px;
     cursor: pointer;
     font-size: 0.85rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     display: inline-flex;
     align-items: center;
     gap: 6px;
     transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+    width: fit-content;
   }
   .pdf-viewer .viewer-back-btn:hover {
     background: rgba(124,106,247,0.1);
     color: var(--accent2);
     transform: translateX(-3px);
   }
+  .pdf-viewer .download-link {
+    color: var(--accent2);
+    text-decoration: none;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: inline-block;
+  }
+  .pdf-viewer .download-link:hover {
+    text-decoration: underline;
+  }
 
-  /* Chat styles (unchanged) */
   .chat-window {
     background: var(--surface); border: 1px solid var(--border2);
     border-radius: 16px; overflow: hidden;
@@ -724,7 +753,7 @@
 
 <!-- RESOURCE PAGES -->
 <div id="olevelResources" class="resource-page">
-  <button class="back-btn" id="backToMainFromOlevel">← Back to Lumiq</button>
+  <button class="back-btn" id="backToMainFromOlevel" onclick="goBack()">← Back</button>
   <div class="section-label">Resources</div>
   <div class="section-title">O-Level / IGCSE</div>
   <p class="section-sub">Study materials, past papers, and worksheets for Cambridge, Edexcel, and AQA.</p>
@@ -736,7 +765,7 @@
 </div>
 
 <div id="alevelResources" class="resource-page">
-  <button class="back-btn" id="backToMainFromAlevel">← Back to Lumiq</button>
+  <button class="back-btn" id="backToMainFromAlevel" onclick="goBack()">← Back</button>
   <div class="section-label">Resources</div>
   <div class="section-title">A-Level</div>
   <p class="section-sub">Choose your level to access notes, worksheets, and past papers.</p>
@@ -745,7 +774,6 @@
     <div class="level-card" data-level="a2"><h2>A2 Level</h2><p>Year 2 · Advanced topics</p></div>
   </div>
   <div id="asResources" class="resource-container" style="display: none;">
-    <button class="back-btn" id="backToLevelsFromAs">← Back to levels</button>
     <div class="section-sub">AS Level Resources</div>
     <div class="level-cards">
       <div class="level-card"><h2>📘 Notes</h2><p>Topic-wise notes for AS</p><a href="#" class="resource-link">Coming soon</a></div>
@@ -754,10 +782,7 @@
     </div>
   </div>
   <div id="a2Resources" class="resource-container" style="display: none;">
-    <button class="back-btn" id="backToLevelsFromA2">← Back to levels</button>
     <div class="section-sub">A2 Level Resources</div>
-
-    <!-- Resource cards: Notes, Worksheets, Past Papers -->
     <div id="a2ResourceCards" class="level-cards">
       <div class="level-card">
         <h2>📘 Notes</h2>
@@ -767,25 +792,23 @@
       <div class="level-card"><h2>📝 Worksheets</h2><p>Practice questions by topic</p><a href="#" class="resource-link">Coming soon</a></div>
       <div class="level-card"><h2>📄 Past Papers</h2><p>P4, P5 with mark schemes</p><a href="#" class="resource-link">Coming soon</a></div>
     </div>
-
-    <!-- Notes library (hidden initially) -->
     <div id="notesLibrary" class="topic-library">
-      <button class="back-btn" id="backToA2CardsFromLibrary">← Back to A2 Resources</button>
       <div class="section-sub">A2 Physics Notes</div>
       <div id="topicGridContainer" class="topic-grid"></div>
     </div>
-
-    <!-- PDF Viewer (hidden initially) -->
     <div id="a2PdfViewer" class="pdf-viewer">
       <button class="viewer-back-btn" id="closePdfViewerFromLibrary">← Back to notes library</button>
       <iframe id="pdfIframe" src="" title="PDF Viewer"></iframe>
+      <div style="margin-top: 1rem; text-align: center;">
+        <a id="pdfDownloadLink" class="download-link" target="_blank">📥 Download PDF (if viewer doesn't load)</a>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- AI TUTOR PAGE -->
 <div id="aiTutorPage" class="ai-tutor-page">
-  <button class="back-btn" id="backToMainFromAI">← Back to Lumiq</button>
+  <button class="back-btn" id="backToMainFromAI" onclick="goBack()">← Back</button>
   <div class="section-label">AI Tutor</div>
   <div class="section-title">Your personal physics tutor</div>
   <p class="section-sub">Ask any physics question. Get step‑by‑step answers. <strong>Unlimited questions (testing mode)</strong></p>
@@ -814,24 +837,24 @@
 <div class="trial-bubble" id="trialBubble">🎁 7‑day free trial</div>
 
 <script>
-  // ===== DATA =====
+  // ===== A2 NOTES DATA (Google Drive preview URLs) =====
   const a2NotesTopics = [
-    { name: "Alternating Currents", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Alternating%20currents.pdf" },
-    { name: "Astronomy & Cosmology", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Astronomy%20%26%20Cosmology.pdf" },
-    { name: "Capacitance", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Capacitance.pdf" },
-    { name: "Circular & Gravitational Fields", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Circular%20%26%20Gravitational%20Fields.pdf" },
-    { name: "Electric Fields", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Electric%20Fields.pdf" },
-    { name: "Gravitational Fields", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Gravitational%20Fields.pdf" },
-    { name: "Ideal Gases", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Ideal%20Gases.pdf" },
-    { name: "Magnetic Fields", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Magnetic%20fields%20.pdf" },
-    { name: "Medical Physics", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Medical%20Physics%20.pdf" },
-    { name: "Medical Imaging, Astronomy & Cosmology", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/MEDICAL%20IMAGING%2CASTRONOMY%20%26%20COSMOLOGY%20NOTES.pdf" },
-    { name: "Motion in a Circle", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Motion%20in%20a%20Circle.pdf" },
-    { name: "Nuclear Physics", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Nuclear%20Physics%20.pdf" },
-    { name: "Oscillations", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Oscillations%20Jan.pdf" },
-    { name: "Quantum Physics", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Quantum%20Physics%20.pdf" },
-    { name: "Temperature", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/TEMPERATURE%20.pdf" },
-    { name: "Thermodynamics", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Thermodynamics.pdf" }
+    { name: "Alternating Currents", url: "https://drive.google.com/file/d/1foRes6OdQ6iRC7GlrFuVRf_LijDH8mjC/preview" },
+    { name: "Astronomy & Cosmology", url: "https://drive.google.com/file/d/1ozfTU_lySaWeZxDZOC0pFUMfUo3dbLNj/preview" },
+    { name: "Capacitance", url: "https://drive.google.com/file/d/11_9Ud3jh87XyvGfjBaCdqXvxlmyvj890/preview" },
+    { name: "Circular & Gravitational Fields", url: "https://drive.google.com/file/d/1fy3UOKRTTKCFb5_lki9VzE5fs1ZToCO3/preview" },
+    { name: "Electric Fields", url: "https://drive.google.com/file/d/1SJLlZRrGJCezmgGcPtGaa4elvH1kivDc/preview" },
+    { name: "Gravitational Fields", url: "https://drive.google.com/file/d/1__FW3EqPPcO2N9jKwOiphjWiPnmHoBVo/preview" },
+    { name: "Ideal Gases", url: "https://drive.google.com/file/d/1TFlpqjPOS6Y_hNIWVbhc32Nd4N42m9OJ/preview" },
+    { name: "Magnetic Fields", url: "https://drive.google.com/file/d/1zTqr01_4QISP-DaWFfHzQn8S9wavaAcf/preview" },
+    { name: "Medical Physics", url: "https://drive.google.com/file/d/1ysX0RQhoaxTNtff2pbTr24xqhHYOAKbQ/preview" },
+    { name: "Medical Imaging, Astronomy & Cosmology", url: "https://drive.google.com/file/d/1lMZmJ-vAK6-l8VNmBMNyUiTtHAObKqhM/preview" },
+    { name: "Motion in a Circle", url: "https://drive.google.com/file/d/1zprQZGH8nD8V5XqwpKKFdl-3w3zGP3Do/preview" },
+    { name: "Nuclear Physics", url: "https://drive.google.com/file/d/1k-O3Qr8pLziLWznRggTb7VBrZr7vGkpg/preview" },
+    { name: "Oscillations", url: "https://drive.google.com/file/d/1E90LZO2g2T8dYc7LXQAVjp0y3nb4LaAs/preview" },
+    { name: "Quantum Physics", url: "https://drive.google.com/file/d/1St1SWbJ_aqSmATEbGD7EUIaxPZg1XAr3/preview" },
+    { name: "Temperature", url: "https://drive.google.com/file/d/1pAKVhDmNZ30UG_2NQYqZoNy1HhfRvWQy/preview" },
+    { name: "Thermodynamics", url: "https://drive.google.com/file/d/1EuQFYFVt7NZDfho8K680KTH2KF3a2dGa/preview" }
   ];
 
   // ===== API & CHAT =====
@@ -840,6 +863,8 @@
   const SYSTEM = `You are Lumiq, an expert AI physics tutor for A-level and O-level students (CIE, Edexcel, AQA). You explain concepts clearly and step-by-step. Show all working when solving problems. Use simple language. Be encouraging. Keep responses focused and not too long. Format equations clearly using text (e.g. F = ma, v² = u² + 2as). If a student seems stuck, offer a hint before the full solution.`;
 
   let history = [];
+  let navStack = []; // navigation stack for back button
+
   function getDailyCount() { return 0; }
   function incrementDailyCount() { return 0; }
   function resetDailyIfNeeded() {}
@@ -865,6 +890,15 @@
   }
 
   function showResource(level) {
+    // Push current state onto stack
+    if (document.getElementById('mainContent').style.display !== 'none') {
+      navStack.push({ type: 'main' });
+    } else if (document.getElementById('olevelResources').classList.contains('active')) {
+      navStack.push({ type: 'olevel' });
+    } else if (document.getElementById('alevelResources').classList.contains('active')) {
+      navStack.push({ type: 'alevel' });
+    }
+
     showLoading(() => {
       document.getElementById('mainContent').style.display = 'none';
       if (level === 'olevel') {
@@ -881,6 +915,15 @@
   }
 
   function showAITutor() {
+    // Push current state onto stack
+    if (document.getElementById('mainContent').style.display !== 'none') {
+      navStack.push({ type: 'main' });
+    } else if (document.getElementById('olevelResources').classList.contains('active')) {
+      navStack.push({ type: 'olevel' });
+    } else if (document.getElementById('alevelResources').classList.contains('active')) {
+      navStack.push({ type: 'alevel' });
+    }
+
     showLoading(() => {
       document.getElementById('mainContent').style.display = 'none';
       document.getElementById('olevelResources').classList.remove('active');
@@ -894,11 +937,13 @@
     document.getElementById('alevelSelection').style.display = 'flex';
     document.getElementById('asResources').style.display = 'none';
     document.getElementById('a2Resources').style.display = 'none';
-    // Reset any open library/viewer when going back to level selection
     resetA2Views();
   }
 
   function showResources(level) {
+    // Push current state (level selection) onto stack
+    navStack.push({ type: 'alevel', level: 'selection' });
+
     showLoading(() => {
       document.getElementById('alevelSelection').style.display = 'none';
       if (level === 'as') {
@@ -907,13 +952,11 @@
       } else {
         document.getElementById('asResources').style.display = 'none';
         document.getElementById('a2Resources').style.display = 'block';
-        resetA2Views();
       }
     });
   }
 
   function resetA2Views() {
-    // Reset to main A2 cards, hide library and viewer
     const resourceCards = document.getElementById('a2ResourceCards');
     const library = document.getElementById('notesLibrary');
     const viewer = document.getElementById('a2PdfViewer');
@@ -922,6 +965,8 @@
     if (viewer) viewer.style.display = 'none';
     const iframe = document.getElementById('pdfIframe');
     if (iframe) iframe.src = '';
+    const downloadLink = document.getElementById('pdfDownloadLink');
+    if (downloadLink) downloadLink.href = '';
   }
 
   function scrollToSection(id) {
@@ -936,6 +981,28 @@
       });
     } else {
       document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // ===== BACK BUTTON =====
+  function goBack() {
+    if (navStack.length === 0) {
+      // If stack is empty, just go to main content
+      showMainContent();
+      return;
+    }
+    const last = navStack.pop();
+    if (last.type === 'main') {
+      showMainContent();
+    } else if (last.type === 'olevel') {
+      showResource('olevel');
+    } else if (last.type === 'alevel') {
+      if (last.level === 'selection') {
+        // Go back to the level selection inside A-Level
+        showLevelSelection();
+      } else {
+        showResource('alevel');
+      }
     }
   }
 
@@ -954,6 +1021,8 @@
   }
 
   function showNotesLibrary() {
+    // Push current state (A2 resources) onto stack
+    navStack.push({ type: 'alevel', level: 'a2resources' });
     const resourceCards = document.getElementById('a2ResourceCards');
     const library = document.getElementById('notesLibrary');
     const viewer = document.getElementById('a2PdfViewer');
@@ -965,15 +1034,18 @@
   }
 
   function showPdfViewer(url) {
+    // Push current state (notes library) onto stack
+    navStack.push({ type: 'alevel', level: 'notesLibrary' });
     const viewer = document.getElementById('a2PdfViewer');
-    const iframe = document.getElementById('pdfIframe');
     const library = document.getElementById('notesLibrary');
     const resourceCards = document.getElementById('a2ResourceCards');
     if (library) library.style.display = 'none';
     if (resourceCards) resourceCards.style.display = 'none';
-    if (viewer) viewer.style.display = 'block';
-    const googleViewerUrl = `https://docs.google.com/viewer?embedded=true&url=${encodeURIComponent(url)}`;
-    iframe.src = googleViewerUrl;
+    if (viewer) viewer.style.display = 'flex';
+    const iframe = document.getElementById('pdfIframe');
+    iframe.src = url;
+    const downloadLink = document.getElementById('pdfDownloadLink');
+    downloadLink.href = url;
   }
 
   function closePdfViewerAndShowLibrary() {
@@ -983,9 +1055,15 @@
     if (iframe) iframe.src = '';
     if (viewer) viewer.style.display = 'none';
     if (library) library.style.display = 'block';
+    // Remove the last push from the stack (since we're going back programmatically)
+    // But to keep the back button consistent, we'll just let the stack handle it.
+    // Actually, we should pop the last entry because we are manually navigating.
+    if (navStack.length > 0 && navStack[navStack.length-1].level === 'notesLibrary') {
+      navStack.pop();
+    }
   }
 
-  // ===== CHAT FUNCTIONS (unchanged) =====
+  // ===== CHAT FUNCTIONS =====
   async function typeMessage(text, bubbleElement) {
     bubbleElement.innerHTML = '';
     const words = text.split(/(\s+)/);
@@ -1084,26 +1162,23 @@
 
   document.getElementById('olevelResourceNav').addEventListener('click', (e) => { e.preventDefault(); showResource('olevel'); });
   document.getElementById('alevelResourceNav').addEventListener('click', (e) => { e.preventDefault(); showResource('alevel'); });
-  document.getElementById('backToMainFromOlevel').addEventListener('click', showMainContent);
-  document.getElementById('backToMainFromAlevel').addEventListener('click', showMainContent);
-  document.getElementById('backToMainFromAI').addEventListener('click', showMainContent);
-  document.getElementById('backToLevelsFromAs').addEventListener('click', showLevelSelection);
-  document.getElementById('backToLevelsFromA2').addEventListener('click', showLevelSelection);
-
-  // A2 resources internal navigation
-  const openLibraryBtn = document.getElementById('openNotesLibraryBtn');
-  if (openLibraryBtn) openLibraryBtn.addEventListener('click', showNotesLibrary);
-  const backToCardsFromLibrary = document.getElementById('backToA2CardsFromLibrary');
-  if (backToCardsFromLibrary) backToCardsFromLibrary.addEventListener('click', resetA2Views);
+  document.getElementById('backToMainFromOlevel').addEventListener('click', goBack);
+  document.getElementById('backToMainFromAlevel').addEventListener('click', goBack);
+  document.getElementById('backToMainFromAI').addEventListener('click', goBack);
+  // Note: The 'backToLevelsFromAs' and 'backToLevelsFromA2' buttons have been removed per previous request.
+  // But we keep the viewer back button.
   const closePdfBtn = document.getElementById('closePdfViewerFromLibrary');
   if (closePdfBtn) closePdfBtn.addEventListener('click', closePdfViewerAndShowLibrary);
 
-  // AS/A2 level cards
+  // Level cards
   document.querySelectorAll('#alevelSelection .level-card').forEach(card => {
     card.addEventListener('click', () => { showResources(card.getAttribute('data-level')); });
   });
 
-  // Build topic library on load
+  // Open notes library
+  const openLibraryBtn = document.getElementById('openNotesLibraryBtn');
+  if (openLibraryBtn) openLibraryBtn.addEventListener('click', showNotesLibrary);
+
   buildTopicLibrary();
 
   showMainContent();
