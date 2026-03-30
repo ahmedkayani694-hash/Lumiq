@@ -1,8 +1,3 @@
-I've updated the O‑Level and A‑Level resource pages to use three large cards (Notes, Worksheets, Past Papers) styled exactly like the AS/A2 level cards. The old resource grids (with Quizzes) are removed. Each card has a "Coming soon" link.
-
-Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +6,7 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
 <title>Lumiq — AI Physics Tutor for A & O Levels</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  /* (All CSS remains exactly the same as in the previous version – no changes needed) */
+  /* ===== CSS remains exactly the same as previous working version ===== */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
@@ -40,7 +35,6 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
     position: relative;
   }
 
-  /* floating trial bubble */
   .trial-bubble {
     position: fixed;
     bottom: 2rem;
@@ -56,7 +50,6 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
     animation: pulseThrob 2.5s infinite ease-in-out;
-    text-decoration: none;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -75,7 +68,6 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
     100% { transform: scale(1); box-shadow: 0 8px 20px rgba(124,106,247,0.3); }
   }
 
-  /* NAV */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
@@ -164,7 +156,6 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
   }
   .nav-cta:active { transform: scale(0.97); }
 
-  /* HERO */
   .hero {
     min-height: 100vh;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -253,13 +244,11 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
   .stat p:first-child { font-size: 1.5rem; font-weight: 500; color: var(--text); }
   .stat p:last-child { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
 
-  /* SECTIONS */
   .section { padding: 5rem 2rem; max-width: 960px; margin: 0 auto; }
   .section-label { font-size: 0.75rem; letter-spacing: 0.1em; color: var(--accent2); text-transform: uppercase; margin-bottom: 0.75rem; }
   .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.2; margin-bottom: 1rem; }
   .section-sub { font-size: 0.95rem; color: var(--muted); max-width: 480px; line-height: 1.7; margin-bottom: 3rem; }
 
-  /* TOPICS */
   .topics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
   .topic-card {
     background: var(--surface); border: 1px solid var(--border);
@@ -277,7 +266,6 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
   .topic-card p:first-of-type { font-size: 0.875rem; font-weight: 500; margin-bottom: 2px; }
   .topic-card p:last-of-type { font-size: 0.75rem; color: var(--muted); }
 
-  /* PRICING */
   .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 2rem; }
   .price-card {
     background: var(--surface); border: 1px solid var(--border);
@@ -336,7 +324,6 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
     padding: 2px 10px; border-radius: 20px; margin-bottom: 10px;
   }
 
-  /* RESOURCE PAGES */
   .resource-page, .ai-tutor-page {
     display: none;
     padding: 6rem 2rem 4rem;
@@ -367,7 +354,6 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
     transform: translateX(-3px);
   }
 
-  /* level selection cards (AS/A2) and O-Level cards */
   .level-cards {
     display: flex;
     gap: 2rem;
@@ -412,7 +398,92 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
   }
   .level-card:hover p { color: var(--text); }
 
-  /* AI TUTOR PAGE */
+  .resource-link {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  }
+  .resource-link:hover {
+    background: #6a58e0;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(124,106,247,0.4);
+  }
+
+  /* topic cards for notes library */
+  .topic-library {
+    display: none;
+    margin-top: 2rem;
+  }
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .topic-card-small {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .topic-card-small:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent2);
+    background: rgba(124,106,247,0.05);
+  }
+  .topic-card-small h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .topic-card-small p {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .pdf-viewer {
+    background: var(--surface2);
+    border-radius: 20px;
+    padding: 1rem;
+    margin-top: 2rem;
+    display: none;
+  }
+  .pdf-viewer iframe {
+    width: 100%;
+    height: 80vh;
+    border: none;
+    border-radius: 12px;
+    background: white;
+  }
+  .pdf-viewer .viewer-back-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  }
+  .pdf-viewer .viewer-back-btn:hover {
+    background: rgba(124,106,247,0.1);
+    color: var(--accent2);
+    transform: translateX(-3px);
+  }
+
+  /* Chat styles (unchanged) */
   .chat-window {
     background: var(--surface); border: 1px solid var(--border2);
     border-radius: 16px; overflow: hidden;
@@ -501,7 +572,6 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
   .quick-btn:active { transform: scale(0.95); }
   .trial-note { font-size: 0.75rem; color: var(--muted); text-align: center; padding: 0.5rem; }
 
-  /* LOADING OVERLAY */
   .loading-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(10,10,15,0.9);
@@ -541,6 +611,7 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
     .level-cards { flex-direction: column; align-items: center; }
     .level-card { width: 100%; max-width: 320px; }
     .nav-links { gap: 1rem; }
+    .pdf-viewer iframe { height: 60vh; }
   }
 </style>
 </head>
@@ -562,10 +633,7 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
   </div>
 </nav>
 
-<!-- LOADING OVERLAY -->
-<div id="loadingOverlay" class="loading-overlay">
-  <div class="spinner"></div>
-</div>
+<div id="loadingOverlay" class="loading-overlay"><div class="spinner"></div></div>
 
 <!-- MAIN CONTENT -->
 <div id="mainContent">
@@ -605,7 +673,6 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
     <div class="section-title">Less than one tutor session</div>
     <p class="section-sub">Start free. Upgrade when you're ready. Cancel anytime.</p>
     <div class="pricing-grid">
-      <!-- Monthly Card -->
       <div class="price-card">
         <p class="plan-name">Monthly</p>
         <p class="plan-price">$6 <span>/ month</span></p>
@@ -619,7 +686,6 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
         </ul>
         <button class="plan-btn filled" onclick="window.open('https://kayani784.gumroad.com/l/mvysxi','_blank')">Subscribe monthly</button>
       </div>
-      <!-- Yearly Card -->
       <div class="price-card featured">
         <div class="popular-badge">Best value</div>
         <p class="plan-name">Yearly</p>
@@ -633,7 +699,6 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
         </ul>
         <button class="plan-btn filled" onclick="window.open('https://kayani784.gumroad.com/l/mvysxi','_blank')">Subscribe yearly</button>
       </div>
-      <!-- Free Trial Card -->
       <div class="price-card">
         <div class="popular-badge">Try first</div>
         <p class="plan-name">Free Trial</p>
@@ -658,28 +723,15 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
 </div>
 
 <!-- RESOURCE PAGES -->
-<!-- O-Level Resources: three large cards (Notes, Worksheets, Past Papers) -->
 <div id="olevelResources" class="resource-page">
   <button class="back-btn" id="backToMainFromOlevel">← Back to Lumiq</button>
   <div class="section-label">Resources</div>
   <div class="section-title">O-Level / IGCSE</div>
   <p class="section-sub">Study materials, past papers, and worksheets for Cambridge, Edexcel, and AQA.</p>
   <div class="level-cards">
-    <div class="level-card" style="cursor: default;">
-      <h2>📘 Notes</h2>
-      <p>Topic-wise notes, formula sheets, and summaries</p>
-      <a href="#" class="resource-link" style="margin-top: 1rem; display: inline-block;">Coming soon</a>
-    </div>
-    <div class="level-card" style="cursor: default;">
-      <h2>📝 Worksheets</h2>
-      <p>Practice questions by topic with solutions</p>
-      <a href="#" class="resource-link" style="margin-top: 1rem; display: inline-block;">Coming soon</a>
-    </div>
-    <div class="level-card" style="cursor: default;">
-      <h2>📄 Past Papers</h2>
-      <p>Recent papers with mark schemes</p>
-      <a href="#" class="resource-link" style="margin-top: 1rem; display: inline-block;">Coming soon</a>
-    </div>
+    <div class="level-card"><h2>📘 Notes</h2><p>Topic-wise notes, formula sheets</p><a href="#" class="resource-link">Coming soon</a></div>
+    <div class="level-card"><h2>📝 Worksheets</h2><p>Practice questions by topic</p><a href="#" class="resource-link">Coming soon</a></div>
+    <div class="level-card"><h2>📄 Past Papers</h2><p>Recent papers with mark schemes</p><a href="#" class="resource-link">Coming soon</a></div>
   </div>
 </div>
 
@@ -689,55 +741,44 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
   <div class="section-title">A-Level</div>
   <p class="section-sub">Choose your level to access notes, worksheets, and past papers.</p>
   <div id="alevelSelection" class="level-cards">
-    <div class="level-card" data-level="as">
-      <h2>AS Level</h2>
-      <p>Year 1 · Core topics</p>
-    </div>
-    <div class="level-card" data-level="a2">
-      <h2>A2 Level</h2>
-      <p>Year 2 · Advanced topics</p>
-    </div>
+    <div class="level-card" data-level="as"><h2>AS Level</h2><p>Year 1 · Core topics</p></div>
+    <div class="level-card" data-level="a2"><h2>A2 Level</h2><p>Year 2 · Advanced topics</p></div>
   </div>
   <div id="asResources" class="resource-container" style="display: none;">
     <button class="back-btn" id="backToLevelsFromAs">← Back to levels</button>
     <div class="section-sub">AS Level Resources</div>
     <div class="level-cards">
-      <div class="level-card" style="cursor: default;">
-        <h2>📘 Notes</h2>
-        <p>Topic-wise notes for AS (Mechanics, Waves, Electricity…)</p>
-        <a href="#" class="resource-link" style="margin-top: 1rem; display: inline-block;">Coming soon</a>
-      </div>
-      <div class="level-card" style="cursor: default;">
-        <h2>📝 Worksheets</h2>
-        <p>Practice questions by topic</p>
-        <a href="#" class="resource-link" style="margin-top: 1rem; display: inline-block;">Coming soon</a>
-      </div>
-      <div class="level-card" style="cursor: default;">
-        <h2>📄 Past Papers</h2>
-        <p>P1, P2, P3 with mark schemes</p>
-        <a href="#" class="resource-link" style="margin-top: 1rem; display: inline-block;">Coming soon</a>
-      </div>
+      <div class="level-card"><h2>📘 Notes</h2><p>Topic-wise notes for AS</p><a href="#" class="resource-link">Coming soon</a></div>
+      <div class="level-card"><h2>📝 Worksheets</h2><p>Practice questions by topic</p><a href="#" class="resource-link">Coming soon</a></div>
+      <div class="level-card"><h2>📄 Past Papers</h2><p>P1, P2, P3 with mark schemes</p><a href="#" class="resource-link">Coming soon</a></div>
     </div>
   </div>
   <div id="a2Resources" class="resource-container" style="display: none;">
     <button class="back-btn" id="backToLevelsFromA2">← Back to levels</button>
     <div class="section-sub">A2 Level Resources</div>
-    <div class="level-cards">
-      <div class="level-card" style="cursor: default;">
+
+    <!-- Resource cards: Notes, Worksheets, Past Papers -->
+    <div id="a2ResourceCards" class="level-cards">
+      <div class="level-card">
         <h2>📘 Notes</h2>
-        <p>Topic-wise notes for A2 (Fields, Thermal, Nuclear…)</p>
-        <a href="#" class="resource-link" style="margin-top: 1rem; display: inline-block;">Coming soon</a>
+        <p>Topic-wise notes for A2 Physics</p>
+        <button id="openNotesLibraryBtn" class="resource-link" style="margin-top: 1rem; width: 100%;">View Notes →</button>
       </div>
-      <div class="level-card" style="cursor: default;">
-        <h2>📝 Worksheets</h2>
-        <p>Practice questions by topic</p>
-        <a href="#" class="resource-link" style="margin-top: 1rem; display: inline-block;">Coming soon</a>
-      </div>
-      <div class="level-card" style="cursor: default;">
-        <h2>📄 Past Papers</h2>
-        <p>P4, P5 with mark schemes</p>
-        <a href="#" class="resource-link" style="margin-top: 1rem; display: inline-block;">Coming soon</a>
-      </div>
+      <div class="level-card"><h2>📝 Worksheets</h2><p>Practice questions by topic</p><a href="#" class="resource-link">Coming soon</a></div>
+      <div class="level-card"><h2>📄 Past Papers</h2><p>P4, P5 with mark schemes</p><a href="#" class="resource-link">Coming soon</a></div>
+    </div>
+
+    <!-- Notes library (hidden initially) -->
+    <div id="notesLibrary" class="topic-library">
+      <button class="back-btn" id="backToA2CardsFromLibrary">← Back to A2 Resources</button>
+      <div class="section-sub">A2 Physics Notes</div>
+      <div id="topicGridContainer" class="topic-grid"></div>
+    </div>
+
+    <!-- PDF Viewer (hidden initially) -->
+    <div id="a2PdfViewer" class="pdf-viewer">
+      <button class="viewer-back-btn" id="closePdfViewerFromLibrary">← Back to notes library</button>
+      <iframe id="pdfIframe" src="" title="PDF Viewer"></iframe>
     </div>
   </div>
 </div>
@@ -751,18 +792,10 @@ Here's the final `index.html` – upload it to GitHub and Vercel will redeploy.
   <div class="chat-window">
     <div class="chat-header">
       <div class="chat-avatar">L</div>
-      <div class="chat-header-info">
-        <p>Lumiq AI Tutor</p>
-        <p>Online now</p>
-      </div>
+      <div class="chat-header-info"><p>Lumiq AI Tutor</p><p>Online now</p></div>
     </div>
     <div class="chat-messages" id="chatMessages">
-      <div class="msg ai">
-        <p class="msg-name">Lumiq</p>
-        <div class="bubble ai">Hi! I'm your Lumiq physics tutor. I can help with any A-level or O-level physics topic — concepts, formulas, past paper questions, or exam technique.
-
-What would you like to work on today?</div>
-      </div>
+      <div class="msg ai"><p class="msg-name">Lumiq</p><div class="bubble ai">Hi! I'm your Lumiq physics tutor. I can help with any A-level or O-level physics topic — concepts, formulas, past paper questions, or exam technique.\n\nWhat would you like to work on today?</div></div>
     </div>
     <div class="quick-btns" id="quickBtns">
       <button class="quick-btn" onclick="quickAsk('Explain Newton\'s second law with an example')">Newton's laws</button>
@@ -771,55 +804,47 @@ What would you like to work on today?</div>
       <button class="quick-btn" onclick="quickAsk('Quiz me on kinematics equations')">Quiz me</button>
     </div>
     <div class="chat-input-area">
-      <textarea id="userInput" placeholder="Ask a physics question..." rows="1"
-        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
-        oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
-      <button class="send-btn" id="sendBtn" onclick="sendMessage()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-      </button>
+      <textarea id="userInput" placeholder="Ask a physics question..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
     </div>
     <p class="trial-note">Unlimited questions · 7‑day free trial on subscription</p>
   </div>
 </div>
 
-<!-- Floating trial bubble (scrolls to pricing) -->
 <div class="trial-bubble" id="trialBubble">🎁 7‑day free trial</div>
 
 <script>
-  // ========== API & CHAT ==========
+  // ===== DATA =====
+  const a2NotesTopics = [
+    { name: "Alternating Currents", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Alternating%20currents.pdf" },
+    { name: "Astronomy & Cosmology", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Astronomy%20%26%20Cosmology.pdf" },
+    { name: "Capacitance", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Capacitance.pdf" },
+    { name: "Circular & Gravitational Fields", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Circular%20%26%20Gravitational%20Fields.pdf" },
+    { name: "Electric Fields", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Electric%20Fields.pdf" },
+    { name: "Gravitational Fields", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Gravitational%20Fields.pdf" },
+    { name: "Ideal Gases", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Ideal%20Gases.pdf" },
+    { name: "Magnetic Fields", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Magnetic%20fields%20.pdf" },
+    { name: "Medical Physics", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Medical%20Physics%20.pdf" },
+    { name: "Medical Imaging, Astronomy & Cosmology", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/MEDICAL%20IMAGING%2CASTRONOMY%20%26%20COSMOLOGY%20NOTES.pdf" },
+    { name: "Motion in a Circle", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Motion%20in%20a%20Circle.pdf" },
+    { name: "Nuclear Physics", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Nuclear%20Physics%20.pdf" },
+    { name: "Oscillations", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Oscillations%20Jan.pdf" },
+    { name: "Quantum Physics", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Quantum%20Physics%20.pdf" },
+    { name: "Temperature", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/TEMPERATURE%20.pdf" },
+    { name: "Thermodynamics", url: "https://raw.githubusercontent.com/ahmedkayani694-hash/Lumiq/main/resources/alevel/A2/Thermodynamics.pdf" }
+  ];
+
+  // ===== API & CHAT =====
   const GROQ_API = 'https://api.groq.com/openai/v1/chat/completions';
   const GROQ_KEY = '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';
-  const SYSTEM = `You are Lumiq, an expert AI physics tutor for A-level and O-level students (CIE, Edexcel, AQA).
-You explain concepts clearly and step-by-step. Show all working when solving problems.
-Use simple language. Be encouraging. Keep responses focused and not too long.
-Format equations clearly using text (e.g. F = ma, v² = u² + 2as).
-If a student seems stuck, offer a hint before the full solution.`;
+  const SYSTEM = `You are Lumiq, an expert AI physics tutor for A-level and O-level students (CIE, Edexcel, AQA). You explain concepts clearly and step-by-step. Show all working when solving problems. Use simple language. Be encouraging. Keep responses focused and not too long. Format equations clearly using text (e.g. F = ma, v² = u² + 2as). If a student seems stuck, offer a hint before the full solution.`;
 
   let history = [];
-
-  // Daily limit disabled for testing
   function getDailyCount() { return 0; }
   function incrementDailyCount() { return 0; }
   function resetDailyIfNeeded() {}
 
-  // ========== PAGE NAVIGATION ==========
-  function scrollToSection(id) {
-    const mainContent = document.getElementById('mainContent');
-    if (mainContent.style.display === 'none') {
-      showLoading(() => {
-        mainContent.style.display = 'block';
-        document.getElementById('olevelResources').classList.remove('active');
-        document.getElementById('alevelResources').classList.remove('active');
-        document.getElementById('aiTutorPage').classList.remove('active');
-        setTimeout(() => {
-          document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }, 80);
-      });
-    } else {
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-
+  // ===== NAVIGATION =====
   function showLoading(callback) {
     const overlay = document.getElementById('loadingOverlay');
     overlay.classList.add('active');
@@ -856,7 +881,6 @@ If a student seems stuck, offer a hint before the full solution.`;
   }
 
   function showAITutor() {
-    resetDailyIfNeeded();
     showLoading(() => {
       document.getElementById('mainContent').style.display = 'none';
       document.getElementById('olevelResources').classList.remove('active');
@@ -870,6 +894,8 @@ If a student seems stuck, offer a hint before the full solution.`;
     document.getElementById('alevelSelection').style.display = 'flex';
     document.getElementById('asResources').style.display = 'none';
     document.getElementById('a2Resources').style.display = 'none';
+    // Reset any open library/viewer when going back to level selection
+    resetA2Views();
   }
 
   function showResources(level) {
@@ -881,19 +907,92 @@ If a student seems stuck, offer a hint before the full solution.`;
       } else {
         document.getElementById('asResources').style.display = 'none';
         document.getElementById('a2Resources').style.display = 'block';
+        resetA2Views();
       }
     });
   }
 
-  // ========== CHAT FUNCTIONS ==========
+  function resetA2Views() {
+    // Reset to main A2 cards, hide library and viewer
+    const resourceCards = document.getElementById('a2ResourceCards');
+    const library = document.getElementById('notesLibrary');
+    const viewer = document.getElementById('a2PdfViewer');
+    if (resourceCards) resourceCards.style.display = 'flex';
+    if (library) library.style.display = 'none';
+    if (viewer) viewer.style.display = 'none';
+    const iframe = document.getElementById('pdfIframe');
+    if (iframe) iframe.src = '';
+  }
+
+  function scrollToSection(id) {
+    const mainContent = document.getElementById('mainContent');
+    if (mainContent.style.display === 'none') {
+      showLoading(() => {
+        mainContent.style.display = 'block';
+        document.getElementById('olevelResources').classList.remove('active');
+        document.getElementById('alevelResources').classList.remove('active');
+        document.getElementById('aiTutorPage').classList.remove('active');
+        setTimeout(() => document.getElementById(id).scrollIntoView({ behavior: 'smooth' }), 80);
+      });
+    } else {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // ===== NOTES LIBRARY & PDF VIEWER =====
+  function buildTopicLibrary() {
+    const container = document.getElementById('topicGridContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    a2NotesTopics.forEach(topic => {
+      const card = document.createElement('div');
+      card.className = 'topic-card-small';
+      card.innerHTML = `<h3>${topic.name}</h3><p>Click to view notes</p>`;
+      card.addEventListener('click', () => showPdfViewer(topic.url));
+      container.appendChild(card);
+    });
+  }
+
+  function showNotesLibrary() {
+    const resourceCards = document.getElementById('a2ResourceCards');
+    const library = document.getElementById('notesLibrary');
+    const viewer = document.getElementById('a2PdfViewer');
+    if (resourceCards) resourceCards.style.display = 'none';
+    if (library) library.style.display = 'block';
+    if (viewer) viewer.style.display = 'none';
+    const iframe = document.getElementById('pdfIframe');
+    if (iframe) iframe.src = '';
+  }
+
+  function showPdfViewer(url) {
+    const viewer = document.getElementById('a2PdfViewer');
+    const iframe = document.getElementById('pdfIframe');
+    const library = document.getElementById('notesLibrary');
+    const resourceCards = document.getElementById('a2ResourceCards');
+    if (library) library.style.display = 'none';
+    if (resourceCards) resourceCards.style.display = 'none';
+    if (viewer) viewer.style.display = 'block';
+    const googleViewerUrl = `https://docs.google.com/viewer?embedded=true&url=${encodeURIComponent(url)}`;
+    iframe.src = googleViewerUrl;
+  }
+
+  function closePdfViewerAndShowLibrary() {
+    const viewer = document.getElementById('a2PdfViewer');
+    const library = document.getElementById('notesLibrary');
+    const iframe = document.getElementById('pdfIframe');
+    if (iframe) iframe.src = '';
+    if (viewer) viewer.style.display = 'none';
+    if (library) library.style.display = 'block';
+  }
+
+  // ===== CHAT FUNCTIONS (unchanged) =====
   async function typeMessage(text, bubbleElement) {
     bubbleElement.innerHTML = '';
     const words = text.split(/(\s+)/);
     for (let i = 0; i < words.length; i++) {
       bubbleElement.innerHTML += words[i];
       await new Promise(resolve => setTimeout(resolve, 30));
-      const box = document.getElementById('chatMessages');
-      box.scrollTop = box.scrollHeight;
+      document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
     }
   }
 
@@ -910,11 +1009,8 @@ If a student seems stuck, offer a hint before the full solution.`;
     wrap.appendChild(bubble);
     box.appendChild(wrap);
     box.scrollTop = box.scrollHeight;
-    if (role === 'user') {
-      bubble.textContent = text;
-    } else {
-      typeMessage(text, bubble);
-    }
+    if (role === 'user') bubble.textContent = text;
+    else typeMessage(text, bubble);
     return wrap;
   }
 
@@ -944,27 +1040,19 @@ If a student seems stuck, offer a hint before the full solution.`;
     const input = document.getElementById('userInput');
     const text = input.value.trim();
     if (!text) return;
-
     input.value = '';
     input.style.height = 'auto';
     document.getElementById('quickBtns').style.display = 'none';
-
     addMessage(text, 'user');
     history.push({ role: 'user', content: text });
-
     const btn = document.getElementById('sendBtn');
     btn.disabled = true;
     addTypingPlaceholder();
-
     try {
       const res = await fetch(GROQ_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY },
-        body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
-          max_tokens: 800,
-          messages: [{ role: 'system', content: SYSTEM }, ...history]
-        })
+        body: JSON.stringify({ model: 'llama-3.3-70b-versatile', max_tokens: 800, messages: [{ role: 'system', content: SYSTEM }, ...history] })
       });
       const data = await res.json();
       removeTypingPlaceholder();
@@ -975,7 +1063,6 @@ If a student seems stuck, offer a hint before the full solution.`;
       removeTypingPlaceholder();
       addMessage('Connection error. Please check your internet and try again.', 'ai');
     }
-
     btn.disabled = false;
     input.focus();
   }
@@ -985,8 +1072,7 @@ If a student seems stuck, offer a hint before the full solution.`;
     sendMessage();
   }
 
-  // ========== EVENT LISTENERS ==========
-  // Navigation
+  // ===== EVENT LISTENERS =====
   document.getElementById('logoHome').addEventListener('click', showMainContent);
   document.getElementById('navHome').addEventListener('click', showMainContent);
   document.getElementById('navPricing').addEventListener('click', () => scrollToSection('pricing'));
@@ -994,13 +1080,8 @@ If a student seems stuck, offer a hint before the full solution.`;
   document.getElementById('launchAITutorBtn').addEventListener('click', showAITutor);
   document.getElementById('scrollToPricingBtn').addEventListener('click', () => scrollToSection('pricing'));
   document.getElementById('trialBubble').addEventListener('click', () => scrollToSection('pricing'));
+  document.getElementById('freeTrialCardBtn').addEventListener('click', () => window.open('https://kayani784.gumroad.com/l/mvysxi', '_blank'));
 
-  // Trial button in free trial card opens Gumroad
-  document.getElementById('freeTrialCardBtn').addEventListener('click', () => {
-    window.open('https://kayani784.gumroad.com/l/mvysxi', '_blank');
-  });
-
-  // Resource navigation
   document.getElementById('olevelResourceNav').addEventListener('click', (e) => { e.preventDefault(); showResource('olevel'); });
   document.getElementById('alevelResourceNav').addEventListener('click', (e) => { e.preventDefault(); showResource('alevel'); });
   document.getElementById('backToMainFromOlevel').addEventListener('click', showMainContent);
@@ -1009,18 +1090,24 @@ If a student seems stuck, offer a hint before the full solution.`;
   document.getElementById('backToLevelsFromAs').addEventListener('click', showLevelSelection);
   document.getElementById('backToLevelsFromA2').addEventListener('click', showLevelSelection);
 
-  // Level cards for A-Level
+  // A2 resources internal navigation
+  const openLibraryBtn = document.getElementById('openNotesLibraryBtn');
+  if (openLibraryBtn) openLibraryBtn.addEventListener('click', showNotesLibrary);
+  const backToCardsFromLibrary = document.getElementById('backToA2CardsFromLibrary');
+  if (backToCardsFromLibrary) backToCardsFromLibrary.addEventListener('click', resetA2Views);
+  const closePdfBtn = document.getElementById('closePdfViewerFromLibrary');
+  if (closePdfBtn) closePdfBtn.addEventListener('click', closePdfViewerAndShowLibrary);
+
+  // AS/A2 level cards
   document.querySelectorAll('#alevelSelection .level-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const level = card.getAttribute('data-level');
-      showResources(level);
-    });
+    card.addEventListener('click', () => { showResources(card.getAttribute('data-level')); });
   });
 
-  // Initial state
+  // Build topic library on load
+  buildTopicLibrary();
+
   showMainContent();
   resetDailyIfNeeded();
 </script>
 </body>
 </html>
-```
