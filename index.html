@@ -630,6 +630,63 @@
   footer a { color: var(--muted); text-decoration: none; transition: color 0.2s ease; }
   footer a:hover { color: var(--accent2); }
 
+  /* ===== NEW ANIMATION STYLES ===== */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .stagger-children > * {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+  }
+  .stagger-children.visible > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .stagger-children > *:nth-child(1) { transition-delay: 0s; }
+  .stagger-children > *:nth-child(2) { transition-delay: 0.05s; }
+  .stagger-children > *:nth-child(3) { transition-delay: 0.1s; }
+  .stagger-children > *:nth-child(4) { transition-delay: 0.15s; }
+  .stagger-children > *:nth-child(5) { transition-delay: 0.2s; }
+  .stagger-children > *:nth-child(6) { transition-delay: 0.25s; }
+  .stagger-children > *:nth-child(7) { transition-delay: 0.3s; }
+  .stagger-children > *:nth-child(8) { transition-delay: 0.35s; }
+
+  .page-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    z-index: 999;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    pointer-events: none;
+  }
+  .page-transition.active {
+    transform: translateY(0);
+  }
+
+  .cursor-glow {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(124,106,247,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
   @media (max-width: 600px) {
     nav { padding: 0.85rem 1.25rem; }
     .hero { padding: 1rem 1.25rem 3rem; }
@@ -987,7 +1044,6 @@
   // ===== BACK BUTTON =====
   function goBack() {
     if (navStack.length === 0) {
-      // If stack is empty, just go to main content
       showMainContent();
       return;
     }
@@ -998,7 +1054,6 @@
       showResource('olevel');
     } else if (last.type === 'alevel') {
       if (last.level === 'selection') {
-        // Go back to the level selection inside A-Level
         showLevelSelection();
       } else {
         showResource('alevel');
@@ -1021,7 +1076,6 @@
   }
 
   function showNotesLibrary() {
-    // Push current state (A2 resources) onto stack
     navStack.push({ type: 'alevel', level: 'a2resources' });
     const resourceCards = document.getElementById('a2ResourceCards');
     const library = document.getElementById('notesLibrary');
@@ -1034,7 +1088,6 @@
   }
 
   function showPdfViewer(url) {
-    // Push current state (notes library) onto stack
     navStack.push({ type: 'alevel', level: 'notesLibrary' });
     const viewer = document.getElementById('a2PdfViewer');
     const library = document.getElementById('notesLibrary');
@@ -1055,9 +1108,6 @@
     if (iframe) iframe.src = '';
     if (viewer) viewer.style.display = 'none';
     if (library) library.style.display = 'block';
-    // Remove the last push from the stack (since we're going back programmatically)
-    // But to keep the back button consistent, we'll just let the stack handle it.
-    // Actually, we should pop the last entry because we are manually navigating.
     if (navStack.length > 0 && navStack[navStack.length-1].level === 'notesLibrary') {
       navStack.pop();
     }
@@ -1150,6 +1200,105 @@
     sendMessage();
   }
 
+  // ===== ANIMATIONS =====
+  function initScrollAnimations() {
+    const fadeElements = document.querySelectorAll('.fade-up');
+    const staggerSections = document.querySelectorAll('.stagger-children');
+
+    function checkVisibility() {
+      fadeElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          el.classList.add('visible');
+        }
+      });
+      staggerSections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          section.classList.add('visible');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', checkVisibility);
+    checkVisibility();
+  }
+
+  function addAnimationClasses() {
+    // Hero elements
+    const heroTitle = document.querySelector('.hero h1');
+    const heroSub = document.querySelector('.hero-sub');
+    const heroBtns = document.querySelector('.hero-btns');
+    const heroStats = document.querySelector('.hero-stats');
+    if (heroTitle) heroTitle.classList.add('fade-up');
+    if (heroSub) heroSub.classList.add('fade-up');
+    if (heroBtns) heroBtns.classList.add('fade-up');
+    if (heroStats) heroStats.classList.add('fade-up');
+
+    // Topics grid
+    const topicsGrid = document.querySelector('.topics-grid');
+    if (topicsGrid) topicsGrid.classList.add('stagger-children');
+
+    // Pricing grid
+    const pricingGrid = document.querySelector('.pricing-grid');
+    if (pricingGrid) pricingGrid.classList.add('stagger-children');
+
+    // A2 resource cards
+    const a2Cards = document.getElementById('a2ResourceCards');
+    if (a2Cards) a2Cards.classList.add('stagger-children');
+  }
+
+  // Cursor glow
+  function initCursorGlow() {
+    const glow = document.createElement('div');
+    glow.className = 'cursor-glow';
+    document.body.appendChild(glow);
+    document.addEventListener('mousemove', (e) => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
+      glow.style.opacity = '1';
+    });
+    document.addEventListener('mouseleave', () => {
+      glow.style.opacity = '0';
+    });
+  }
+
+  // Page transition wrapper for navigation functions
+  let isTransitioning = false;
+  function transitionToPage(callback) {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    const overlay = document.createElement('div');
+    overlay.className = 'page-transition';
+    document.body.appendChild(overlay);
+    setTimeout(() => overlay.classList.add('active'), 10);
+    setTimeout(() => {
+      callback();
+      setTimeout(() => {
+        overlay.classList.remove('active');
+        setTimeout(() => {
+          overlay.remove();
+          isTransitioning = false;
+        }, 400);
+      }, 100);
+    }, 400);
+  }
+
+  // Wrap navigation functions with transition
+  const originalShowMainContent = showMainContent;
+  const originalShowResource = showResource;
+  const originalShowAITutor = showAITutor;
+
+  showMainContent = function() {
+    transitionToPage(() => originalShowMainContent());
+  };
+  showResource = function(level) {
+    transitionToPage(() => originalShowResource(level));
+  };
+  showAITutor = function() {
+    transitionToPage(() => originalShowAITutor());
+  };
+
   // ===== EVENT LISTENERS =====
   document.getElementById('logoHome').addEventListener('click', showMainContent);
   document.getElementById('navHome').addEventListener('click', showMainContent);
@@ -1165,21 +1314,21 @@
   document.getElementById('backToMainFromOlevel').addEventListener('click', goBack);
   document.getElementById('backToMainFromAlevel').addEventListener('click', goBack);
   document.getElementById('backToMainFromAI').addEventListener('click', goBack);
-  // Note: The 'backToLevelsFromAs' and 'backToLevelsFromA2' buttons have been removed per previous request.
-  // But we keep the viewer back button.
+
   const closePdfBtn = document.getElementById('closePdfViewerFromLibrary');
   if (closePdfBtn) closePdfBtn.addEventListener('click', closePdfViewerAndShowLibrary);
 
-  // Level cards
   document.querySelectorAll('#alevelSelection .level-card').forEach(card => {
     card.addEventListener('click', () => { showResources(card.getAttribute('data-level')); });
   });
 
-  // Open notes library
   const openLibraryBtn = document.getElementById('openNotesLibraryBtn');
   if (openLibraryBtn) openLibraryBtn.addEventListener('click', showNotesLibrary);
 
   buildTopicLibrary();
+  addAnimationClasses();
+  initScrollAnimations();
+  initCursorGlow();
 
   showMainContent();
   resetDailyIfNeeded();
