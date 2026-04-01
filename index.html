@@ -39,22 +39,22 @@
     pointer-events: none; z-index: -1;
   }
 
-  .trial-bubble {
-    position: fixed; bottom: 2rem; right: 2rem;
-    background: linear-gradient(135deg, var(--accent2), var(--accent));
-    color: white; padding: 0.75rem 1.5rem; border-radius: 40px;
-    font-weight: 600; font-size: 0.9rem; z-index: 200;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3); cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    animation: pulseThrob 2.5s infinite ease-in-out;
-    display: flex; align-items: center; gap: 8px;
-    backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.2);
+  /* atom section */
+  .atom-section-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0 2rem;
   }
-  .trial-bubble:hover { transform: scale(1.08) translateY(-2px); animation: none; }
-  @keyframes pulseThrob {
-    0% { transform: scale(1); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-    50% { transform: scale(1.05); box-shadow: 0 12px 28px rgba(0,0,0,0.35); }
-    100% { transform: scale(1); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+  .atom-section-wrap canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+  }
+  @media (max-width: 600px) {
+    .atom-section-wrap canvas { width: 340px !important; height: 340px !important; }
   }
 
   nav {
@@ -270,13 +270,8 @@
     background: var(--surface2); border-radius: 20px; padding: 1rem;
     margin-top: 2rem; display: none; flex-direction: column; gap: 1rem;
   }
-  /* CRITICAL: cursor ring must hide over the entire pdf-viewer div including iframe */
-  .pdf-viewer:hover ~ * .cursor-glow,
-  .pdf-viewer *:hover ~ .cursor-glow { opacity: 0 !important; }
-
   .pdf-viewer iframe {
     width: 100%; height: 80vh; border: none; border-radius: 12px; background: white;
-    /* pointer-events stay on so user can interact with PDF */
   }
   .pdf-viewer .viewer-back-btn {
     background: transparent; border: 1px solid var(--border); color: var(--muted);
@@ -382,7 +377,6 @@
                 box-shadow 0.2s ease, opacity 0.15s ease;
     box-shadow: 0 0 6px var(--accent2); background: transparent;
   }
-  /* When body has pdf-hover class, hide ring immediately */
   body.pdf-hover .cursor-glow { opacity: 0 !important; transition: opacity 0.05s ease; }
 
   @keyframes cursorRipple {
@@ -525,15 +519,8 @@
     <div class="section-label">Curriculum</div>
     <div class="section-title">Every topic covered</div>
     <p class="section-sub">From basics to advanced. Aligned with CIE, Edexcel and AQA syllabi.</p>
-    <div class="topics-grid">
-      <div class="topic-card"><div class="topic-icon">⚡</div><p>Mechanics</p><p>Motion, forces, energy</p></div>
-      <div class="topic-card"><div class="topic-icon">〜</div><p>Waves</p><p>Sound, light, EM spectrum</p></div>
-      <div class="topic-card"><div class="topic-icon">🔋</div><p>Electricity</p><p>Circuits, Ohm's law</p></div>
-      <div class="topic-card"><div class="topic-icon">🌡</div><p>Thermal physics</p><p>Heat, gas laws</p></div>
-      <div class="topic-card"><div class="topic-icon">⚛</div><p>Nuclear physics</p><p>Atoms, radioactivity</p></div>
-      <div class="topic-card"><div class="topic-icon">🔭</div><p>Fields</p><p>Gravity, electric, magnetic</p></div>
-      <div class="topic-card"><div class="topic-icon">💡</div><p>Quantum</p><p>Photoelectric, wave-particle</p></div>
-      <div class="topic-card"><div class="topic-icon">📐</div><p>Measurements</p><p>Units, uncertainty, data</p></div>
+    <div class="atom-section-wrap">
+      <canvas id="atomCanvas" width="800" height="800"></canvas>
     </div>
   </section>
 
@@ -591,7 +578,6 @@
 
 <!-- O-LEVEL RESOURCES -->
 <div id="olevelResources" class="resource-page">
-  <!-- back button: goes to main -->
   <button class="back-btn" id="backFromOlevel">← Back to Home</button>
   <div class="section-label">Resources</div>
   <div class="section-title">O-Level / IGCSE</div>
@@ -618,7 +604,6 @@
 <!-- A-LEVEL RESOURCES -->
 <div id="alevelResources" class="resource-page">
 
-  <!-- STATE 1: Level Selection (AS / A2) — back goes to Home -->
   <div id="alevelState1">
     <button class="back-btn" id="backFromAlevelState1">← Back to Home</button>
     <div class="section-label">Resources</div>
@@ -630,7 +615,6 @@
     </div>
   </div>
 
-  <!-- STATE 2: AS Resources — back goes to Level Selection -->
   <div id="alevelState2AS" style="display:none;">
     <button class="back-btn" id="backFromAS">← Back to A-Level</button>
     <div class="section-sub" style="margin-bottom:1rem;">AS Level Resources</div>
@@ -641,7 +625,6 @@
     </div>
   </div>
 
-  <!-- STATE 3: A2 Resource Cards — back goes to Level Selection -->
   <div id="alevelState3A2" style="display:none;">
     <button class="back-btn" id="backFromA2">← Back to A-Level</button>
     <div class="section-sub" style="margin-bottom:1rem;">A2 Level Resources</div>
@@ -656,14 +639,12 @@
     </div>
   </div>
 
-  <!-- STATE 4: Notes Library — back goes to A2 Resource Cards -->
   <div id="alevelState4Library" style="display:none;">
     <button class="back-btn" id="backFromLibrary">← Back to A2 Resources</button>
     <div class="section-sub" style="margin-bottom:1rem;">A2 Physics Notes</div>
     <div id="topicGridContainer" class="topic-grid"></div>
   </div>
 
-  <!-- STATE 5: PDF Viewer — back goes to Notes Library -->
   <div id="alevelState5PDF" style="display:none;">
     <div class="pdf-viewer" id="a2PdfViewer" style="display:flex;">
       <button class="viewer-back-btn" id="backFromPDF">← Back to notes library</button>
@@ -710,9 +691,6 @@ What would you like to work on today?</div></div>
   </div>
 </div>
 
-<div class="trial-bubble" id="trialBubble">🎁 7‑day free trial</div>
-
-<!-- Floating chat assistant -->
 <div class="floating-chat" id="floatingChat">
   <div class="chat-button" id="chatButton">
     <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none">
@@ -739,6 +717,152 @@ What would you like to work on today?</div></div>
     </div>
   </div>
 </div>
+
+<script>
+// ===== 3D ATOM (800x800, only "Lumiq" in nucleus) =====
+(function() {
+  const canvas = document.getElementById('atomCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = 800, H = 800, cx = W/2, cy = H/2;
+
+  const rings = [
+    { topics: ['Mechanics','Waves','Electricity'], radius:140, tiltX:68, tiltY:0, speed:0.38, color:'#60A5FA', ringStroke:'rgba(59,130,246,0.5)', ringDash:'rgba(59,130,246,0.15)', phase:0 },
+    { topics: ['Thermal Physics','Nuclear Physics','Fields','Optics'], radius:230, tiltX:22, tiltY:52, speed:-0.24, color:'#34D399', ringStroke:'rgba(52,211,153,0.45)', ringDash:'rgba(52,211,153,0.13)', phase:Math.PI/3 },
+    { topics: ['Quantum','Oscillations','Capacitance','Measurements','Gravitational Fields'], radius:320, tiltX:52, tiltY:-32, speed:0.15, color:'#A78BFA', ringStroke:'rgba(167,139,250,0.4)', ringDash:'rgba(167,139,250,0.12)', phase:Math.PI*0.7 }
+  ];
+
+  function project(x3, y3, z3, tiltX, tiltY) {
+    const tx = tiltX * Math.PI / 180, ty = tiltY * Math.PI / 180;
+    let y = y3 * Math.cos(tx) - z3 * Math.sin(tx);
+    let z = y3 * Math.sin(tx) + z3 * Math.cos(tx);
+    let x = x3 * Math.cos(ty) + z * Math.sin(ty);
+    z = -x3 * Math.sin(ty) + z * Math.cos(ty);
+    return { sx: x, sy: y, z: z };
+  }
+
+  function drawRing(ring) {
+    const N = 180;
+    let inSeg = false;
+    ctx.beginPath();
+    for (let i = 0; i <= N; i++) {
+      const th = (i / N) * Math.PI * 2;
+      const p = project(ring.radius * Math.cos(th), ring.radius * Math.sin(th), 0, ring.tiltX, ring.tiltY);
+      if (p.z < 0) {
+        if (!inSeg) { ctx.moveTo(cx + p.sx, cy + p.sy); inSeg = true; }
+        else ctx.lineTo(cx + p.sx, cy + p.sy);
+      } else { inSeg = false; }
+    }
+    ctx.setLineDash([3, 7]);
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = ring.ringDash;
+    ctx.stroke();
+
+    ctx.beginPath();
+    inSeg = false;
+    for (let i = 0; i <= N; i++) {
+      const th = (i / N) * Math.PI * 2;
+      const p = project(ring.radius * Math.cos(th), ring.radius * Math.sin(th), 0, ring.tiltX, ring.tiltY);
+      if (p.z >= 0) {
+        if (!inSeg) { ctx.moveTo(cx + p.sx, cy + p.sy); inSeg = true; }
+        else ctx.lineTo(cx + p.sx, cy + p.sy);
+      } else { inSeg = false; }
+    }
+    ctx.setLineDash([]);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = ring.ringStroke;
+    ctx.stroke();
+  }
+
+  function drawNucleus() {
+    for (let i = 0; i < 2; i++) {
+      const r = [62, 46][i];
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(59,130,246,${0.06 + i * 0.05})`;
+      ctx.lineWidth = 10 - i * 3;
+      ctx.stroke();
+    }
+    ctx.beginPath();
+    ctx.arc(cx, cy, 36, 0, Math.PI * 2);
+    ctx.fillStyle = '#1F1F2A';
+    ctx.fill();
+    ctx.strokeStyle = '#3B82F6';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = "bold 22px 'Playfair Display', Georgia, serif";
+    ctx.fillStyle = '#E5E7EB';
+    ctx.fillText('Lumiq', cx, cy);
+  }
+
+  function getPos(ring, ti, t) {
+    const theta = (2 * Math.PI * ti / ring.topics.length) + ring.phase + t * ring.speed;
+    return project(ring.radius * Math.cos(theta), ring.radius * Math.sin(theta), 0, ring.tiltX, ring.tiltY);
+  }
+
+  function drawTag(sx, sy, z, text, color, ringStroke) {
+    const depth = Math.max(0, Math.min(1, (z + 360) / 720));
+    const alpha = 0.38 + depth * 0.62;
+    const fs = Math.round(14 + depth * 4);
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.font = `500 ${fs}px 'DM Sans', system-ui, sans-serif`;
+    const tw = ctx.measureText(text).width;
+    const th = fs;
+    const pad = 8;
+    const rx = cx + sx - tw / 2 - pad;
+    const ry = cy + sy - th / 2 - pad - 2;
+    const rw = tw + pad * 2;
+    const rh = th + pad * 2;
+    ctx.beginPath();
+    ctx.rect(rx, ry, rw, rh);
+    ctx.fillStyle = '#1F1F2A';
+    ctx.fill();
+    ctx.strokeStyle = ringStroke.replace('0.5)', '0.35)').replace('0.45)', '0.3)').replace('0.4)', '0.28)');
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.fillStyle = color;
+    ctx.fillText(text, cx + sx, cy + sy);
+    ctx.restore();
+
+    ctx.save();
+    ctx.globalAlpha = 0.5 + depth * 0.5;
+    ctx.beginPath();
+    ctx.arc(cx + sx, cy + sy - th / 2 - pad - 6, 3 + depth * 2, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function draw(now) {
+    const t = now / 1000;
+    ctx.clearRect(0, 0, W, H);
+    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 340);
+    grad.addColorStop(0, 'rgba(59,130,246,0.07)');
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+    rings.forEach(ring => drawRing(ring));
+    const all = [];
+    rings.forEach(ring => {
+      ring.topics.forEach((topic, ti) => {
+        const p = getPos(ring, ti, t);
+        all.push({ sx: p.sx, sy: p.sy, z: p.z, text: topic, color: ring.color, ringStroke: ring.ringStroke });
+      });
+    });
+    all.sort((a, b) => a.z - b.z);
+    all.filter(a => a.z < 0).forEach(a => drawTag(a.sx, a.sy, a.z, a.text, a.color, a.ringStroke));
+    drawNucleus();
+    all.filter(a => a.z >= 0).forEach(a => drawTag(a.sx, a.sy, a.z, a.text, a.color, a.ringStroke));
+    requestAnimationFrame(draw);
+  }
+
+  requestAnimationFrame(draw);
+})();
+</script>
 
 <script>
 // ===== A2 NOTES DATA =====
@@ -821,7 +945,6 @@ function showAlevel() {
   showLoading(() => {
     hideAllPages();
     document.getElementById('alevelResources').classList.add('active');
-    // Always start at state 1 (level selection) when coming from nav
     setAlevelState(1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
@@ -849,7 +972,6 @@ function scrollToSection(id) {
 }
 
 // ===== A-LEVEL STATE MACHINE =====
-// States: 1=Level Selection, 2=AS, 3=A2 Cards, 4=Notes Library, 5=PDF
 function setAlevelState(state) {
   document.getElementById('alevelState1').style.display = state === 1 ? 'block' : 'none';
   document.getElementById('alevelState2AS').style.display = state === 2 ? 'block' : 'none';
@@ -857,7 +979,6 @@ function setAlevelState(state) {
   document.getElementById('alevelState4Library').style.display = state === 4 ? 'block' : 'none';
   document.getElementById('alevelState5PDF').style.display = state === 5 ? 'block' : 'none';
 
-  // If leaving PDF state, clear iframe and hide ring
   if (state !== 5) {
     document.getElementById('pdfIframe').src = '';
     document.body.classList.remove('pdf-hover');
@@ -866,18 +987,13 @@ function setAlevelState(state) {
   }
 }
 
-// ===== BACK BUTTON WIRING (simple, explicit — no stack needed) =====
-// O-Level: back to home
+// ===== BACK BUTTONS =====
 document.getElementById('backFromOlevel').addEventListener('click', showMainContent);
-
-// A-Level state back buttons
-document.getElementById('backFromAlevelState1').addEventListener('click', showMainContent);    // State 1 → Home
-document.getElementById('backFromAS').addEventListener('click', () => setAlevelState(1));      // State 2 → State 1
-document.getElementById('backFromA2').addEventListener('click', () => setAlevelState(1));      // State 3 → State 1
-document.getElementById('backFromLibrary').addEventListener('click', () => setAlevelState(3)); // State 4 → State 3
-document.getElementById('backFromPDF').addEventListener('click', () => setAlevelState(4));     // State 5 → State 4
-
-// AI tutor: back to home
+document.getElementById('backFromAlevelState1').addEventListener('click', showMainContent);
+document.getElementById('backFromAS').addEventListener('click', () => setAlevelState(1));
+document.getElementById('backFromA2').addEventListener('click', () => setAlevelState(1));
+document.getElementById('backFromLibrary').addEventListener('click', () => setAlevelState(3));
+document.getElementById('backFromPDF').addEventListener('click', () => setAlevelState(4));
 document.getElementById('backFromAI').addEventListener('click', showMainContent);
 
 // ===== NOTES LIBRARY =====
@@ -901,7 +1017,6 @@ function showPdfViewer(url, topicName, topicDesc) {
   setAlevelState(5);
   showFloatingChat();
 
-  // Cursor ring: hide when over pdf-viewer (including iframe), show when leaving
   const pdfViewer = document.getElementById('a2PdfViewer');
   pdfViewer.addEventListener('mouseenter', () => document.body.classList.add('pdf-hover'));
   pdfViewer.addEventListener('mouseleave', () => document.body.classList.remove('pdf-hover'));
@@ -1036,7 +1151,6 @@ function initCursorRing() {
   document.addEventListener('mousemove', (e) => {
     ring.style.left = e.clientX + 'px';
     ring.style.top = e.clientY + 'px';
-    // Only show if not in pdf-hover mode
     if (!document.body.classList.contains('pdf-hover')) {
       ring.style.opacity = '1';
     }
@@ -1085,14 +1199,13 @@ document.getElementById('navPricing').addEventListener('click', () => scrollToSe
 document.getElementById('navAskAI').addEventListener('click', showAITutor);
 document.getElementById('launchAITutorBtn').addEventListener('click', showAITutor);
 document.getElementById('scrollToPricingBtn').addEventListener('click', () => scrollToSection('pricing'));
-document.getElementById('trialBubble').addEventListener('click', () => scrollToSection('pricing'));
+
 document.getElementById('freeTrialCardBtn').addEventListener('click', () => window.open('https://lumiqstudy.gumroad.com/l/mvysxi', '_blank'));
 document.getElementById('subscribeBtn').addEventListener('click', () => window.open('https://lumiqstudy.gumroad.com/l/mvysxi', '_blank'));
 
 document.getElementById('olevelResourceNav').addEventListener('click', (e) => { e.preventDefault(); showOlevel(); });
 document.getElementById('alevelResourceNav').addEventListener('click', (e) => { e.preventDefault(); showAlevel(); });
 
-// A-Level level card clicks
 document.querySelectorAll('#alevelSelection .level-card').forEach(card => {
   card.addEventListener('click', () => {
     const level = card.getAttribute('data-level');
@@ -1106,13 +1219,17 @@ document.getElementById('chatButton').addEventListener('click', toggleAssistChat
 document.getElementById('closeAssistChat').addEventListener('click', toggleAssistChat);
 document.getElementById('sendAssistBtn').addEventListener('click', sendAssistMessage);
 document.getElementById('assistInput').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendAssistMessage(); }
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendAssistMessage();
+  }
 });
 
 buildTopicLibrary();
 addAnimationClasses();
 initScrollAnimations();
 initCursorRing();
+
 showMainContent();
 </script>
 </body>
