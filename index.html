@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  /* ===== VARIABLES (dark mode default, light mode toggled) ===== */
+  /* ===== DARK MODE ONLY ===== */
   :root {
     --bg: #121212;
     --surface: #1F1F2A;
@@ -21,20 +21,6 @@
     --accent-glow: rgba(59,130,246,0.15);
     --green: #10B981;
     --green-bg: rgba(16,185,129,0.1);
-  }
-  body.light {
-    --bg: #F8F9FA;
-    --surface: #FFFFFF;
-    --surface2: #F2F4F7;
-    --border: #E2E8F0;
-    --border2: #CBD5E1;
-    --text: #333333;
-    --muted: #555555;
-    --accent: #1A2B42;
-    --accent2: #5A7D9A;
-    --accent-glow: rgba(26,43,66,0.1);
-    --green: #2D6A4F;
-    --green-bg: rgba(45,106,79,0.1);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -51,7 +37,7 @@
     transition: background 0.2s ease, color 0.2s ease;
   }
 
-  /* subtle radial gradient background (only in light mode for depth) */
+  /* subtle radial gradient background */
   body::before {
     content: "";
     position: fixed;
@@ -59,12 +45,9 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03) 0%, transparent 100%);
+    background: radial-gradient(circle at 20% 30%, rgba(59,130,246,0.05) 0%, transparent 100%);
     pointer-events: none;
     z-index: -1;
-  }
-  body.light::before {
-    background: radial-gradient(circle at 20% 30%, rgba(0,0,0,0.02) 0%, transparent 100%);
   }
 
   /* floating trial bubble */
@@ -106,7 +89,7 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 1rem 2rem;
-    background: rgba(var(--bg-rgb, 18,18,24), 0.85);
+    background: rgba(18,18,24,0.85);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
@@ -190,25 +173,6 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   }
   .nav-cta:active { transform: scale(0.97); }
-
-  /* Theme toggle */
-  .theme-toggle {
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 30px;
-    padding: 0.4rem 0.8rem;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.8rem;
-    color: var(--muted);
-    transition: all 0.2s ease;
-  }
-  .theme-toggle:hover {
-    background: var(--surface2);
-    color: var(--text);
-  }
 
   /* ===== HERO ===== */
   .hero {
@@ -1133,7 +1097,6 @@
       </div>
     </div>
     <button class="nav-cta" id="navAskAI">Ask AI</button>
-    <button class="theme-toggle" id="themeToggle">🌙</button>
   </div>
 </nav>
 
@@ -1224,7 +1187,7 @@
   </footer>
 </div>
 
-<!-- RESOURCE PAGES (unchanged HTML structure) -->
+<!-- RESOURCE PAGES -->
 <div id="olevelResources" class="resource-page">
   <button class="back-btn" id="backToMainFromOlevel" onclick="goBack()">← Back</button>
   <div class="section-label">Resources</div>
@@ -1417,31 +1380,6 @@
 
   toggle.addEventListener('change', updatePricing);
   updatePricing();
-
-  // ===== THEME TOGGLE =====
-  function initTheme() {
-    const savedTheme = localStorage.getItem('lumiq-theme');
-    if (savedTheme === 'light') {
-      document.body.classList.add('light');
-      document.getElementById('themeToggle').textContent = '🌙';
-    } else {
-      document.body.classList.remove('light');
-      document.getElementById('themeToggle').textContent = '☀️';
-    }
-  }
-  function toggleTheme() {
-    if (document.body.classList.contains('light')) {
-      document.body.classList.remove('light');
-      localStorage.setItem('lumiq-theme', 'dark');
-      document.getElementById('themeToggle').textContent = '☀️';
-    } else {
-      document.body.classList.add('light');
-      localStorage.setItem('lumiq-theme', 'light');
-      document.getElementById('themeToggle').textContent = '🌙';
-    }
-  }
-  document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-  initTheme();
 
   // ===== NAVIGATION =====
   function showLoading(callback) {
