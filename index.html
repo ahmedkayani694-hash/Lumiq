@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  /* ===== DARK MODE ONLY ===== */
   :root {
     --bg: #121212;
     --surface: #1F1F2A;
@@ -24,9 +23,7 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
-
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--bg);
@@ -34,832 +31,341 @@
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
-    transition: background 0.2s ease, color 0.2s ease;
   }
-
-  /* subtle radial gradient background */
   body::before {
     content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: radial-gradient(circle at 20% 30%, rgba(59,130,246,0.05) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: -1;
+    pointer-events: none; z-index: -1;
   }
 
-  /* floating trial bubble */
   .trial-bubble {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
+    position: fixed; bottom: 2rem; right: 2rem;
     background: linear-gradient(135deg, var(--accent2), var(--accent));
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 40px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    z-index: 200;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    color: white; padding: 0.75rem 1.5rem; border-radius: 40px;
+    font-weight: 600; font-size: 0.9rem; z-index: 200;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3); cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     animation: pulseThrob 2.5s infinite ease-in-out;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(255,255,255,0.2);
+    display: flex; align-items: center; gap: 8px;
+    backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.2);
   }
-  .trial-bubble:hover {
-    transform: scale(1.08) translateY(-2px);
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    box-shadow: 0 12px 28px rgba(0,0,0,0.4);
-    animation: none;
-  }
+  .trial-bubble:hover { transform: scale(1.08) translateY(-2px); animation: none; }
   @keyframes pulseThrob {
     0% { transform: scale(1); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
     50% { transform: scale(1.05); box-shadow: 0 12px 28px rgba(0,0,0,0.35); }
     100% { transform: scale(1); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
   }
 
-  /* ===== NAVIGATION ===== */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 1rem 2rem;
-    background: rgba(18,18,24,0.85);
-    backdrop-filter: blur(12px);
+    background: rgba(18,18,24,0.85); backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
   .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--text); letter-spacing: -0.02em; cursor: pointer; }
   .logo span { color: var(--accent2); }
   .nav-links { display: flex; gap: 1.5rem; align-items: center; }
-  .nav-links a, .nav-links .nav-cta {
+  .nav-links a {
     font-size: 0.875rem; color: var(--muted); text-decoration: none;
-    transition: color 0.25s ease; cursor: pointer;
-    position: relative;
+    transition: color 0.25s ease; cursor: pointer; position: relative;
   }
   .nav-links a::after {
-    content: '';
-    position: absolute; bottom: -3px; left: 0; right: 0;
-    height: 1px; background: var(--accent);
-    transform: scaleX(0); transition: transform 0.25s ease;
+    content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+    height: 1px; background: var(--accent); transform: scaleX(0); transition: transform 0.25s ease;
   }
   .nav-links a:hover { color: var(--text); }
   .nav-links a:hover::after { transform: scaleX(1); }
-
-  .dropdown {
-    position: relative;
-    display: inline-block;
-    padding-bottom: 0.5rem;
-  }
+  .dropdown { position: relative; display: inline-block; padding-bottom: 0.5rem; }
   .dropbtn {
-    background: none;
-    border: none;
-    font-size: 0.875rem;
-    color: var(--muted);
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: color 0.25s ease;
-    padding: 0;
+    background: none; border: none; font-size: 0.875rem; color: var(--muted);
+    cursor: pointer; font-family: 'DM Sans', sans-serif; transition: color 0.25s ease; padding: 0;
   }
   .dropbtn:hover { color: var(--text); }
   .dropdown-content {
-    display: none;
-    position: absolute;
-    background: var(--surface);
-    min-width: 160px;
-    box-shadow: 0 12px 24px rgba(0,0,0,0.3);
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    z-index: 1;
-    overflow: hidden;
-    top: 100%;
-    left: 0;
-    margin-top: 0;
+    display: none; position: absolute; background: var(--surface);
+    min-width: 160px; box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+    border-radius: 10px; border: 1px solid var(--border);
+    z-index: 1; overflow: hidden; top: 100%; left: 0; margin-top: 0;
   }
   .dropdown:hover .dropdown-content { display: block; }
   .dropdown-content a {
-    color: var(--muted);
-    padding: 10px 16px;
-    text-decoration: none;
-    display: block;
-    font-size: 0.85rem;
-    cursor: pointer;
+    color: var(--muted); padding: 10px 16px; text-decoration: none;
+    display: block; font-size: 0.85rem; cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease;
   }
-  .dropdown-content a:hover {
-    background: var(--surface2);
-    color: var(--text);
-  }
-
+  .dropdown-content a:hover { background: var(--surface2); color: var(--text); }
   .nav-cta {
-    background: var(--accent);
-    color: white;
-    border: none;
-    padding: 0.6rem 1.4rem;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
+    background: var(--accent); color: white; border: none;
+    padding: 0.6rem 1.4rem; border-radius: 6px; font-size: 0.9rem;
+    font-weight: 500; cursor: pointer;
     transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   }
-  .nav-cta:hover {
-    background: var(--accent2);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  }
+  .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
   .nav-cta:active { transform: scale(0.97); }
 
-  /* ===== HERO ===== */
   .hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center;
-    padding: 2rem 2rem 4rem;
-    position: relative;
-    overflow: hidden;
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 2rem 2rem 4rem; position: relative; overflow: hidden;
   }
   .hero::before {
-    content: '';
-    position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
+    content: ''; position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
     width: 700px; height: 700px;
     background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
-    pointer-events: none;
-    filter: blur(40px);
+    pointer-events: none; filter: blur(40px);
   }
   .hero::after {
-    content: '';
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 200px;
-    background: linear-gradient(to top, var(--bg), transparent);
-    pointer-events: none;
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 200px;
+    background: linear-gradient(to top, var(--bg), transparent); pointer-events: none;
   }
   .hero-badge {
     display: inline-flex; align-items: center; gap: 6px;
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: var(--surface); border: 1px solid var(--border);
     padding: 0.35rem 0.85rem; border-radius: 20px;
-    font-size: 0.75rem; color: var(--muted); margin-bottom: 2rem;
-    backdrop-filter: blur(4px);
+    font-size: 0.75rem; color: var(--muted); margin-bottom: 2rem; backdrop-filter: blur(4px);
   }
   .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
-
   h1 {
     font-family: 'Playfair Display', serif;
     font-size: clamp(2.8rem, 7vw, 5rem);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.25rem;
-    max-width: 800px;
-    color: var(--text);
+    line-height: 1.1; letter-spacing: -0.02em;
+    margin-bottom: 1.25rem; max-width: 800px; color: var(--text);
   }
-  h1 em {
-    font-style: italic;
-    color: var(--accent2);
-  }
-
-  .hero-sub {
-    font-size: 1.1rem;
-    color: var(--muted);
-    max-width: 520px;
-    line-height: 1.5;
-    margin-bottom: 2rem;
-  }
-
+  h1 em { font-style: italic; color: var(--accent2); }
+  .hero-sub { font-size: 1.1rem; color: var(--muted); max-width: 520px; line-height: 1.5; margin-bottom: 2rem; }
   .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-
   .btn-primary {
-    background: var(--accent);
-    color: white;
-    border: none;
-    padding: 0.85rem 2rem;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
+    background: var(--accent); color: white; border: none;
+    padding: 0.85rem 2rem; border-radius: 6px; font-size: 0.95rem; font-weight: 500; cursor: pointer;
     transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    font-family: 'DM Sans', sans-serif;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    font-family: 'DM Sans', sans-serif; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   }
-  .btn-primary:hover {
-    background: var(--accent2);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
-  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.3); }
   .btn-primary:active { transform: scale(0.98); }
-
   .btn-secondary {
-    background: transparent;
-    color: var(--accent);
-    border: 1px solid var(--border2);
-    padding: 0.85rem 2rem;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    font-weight: 400;
-    cursor: pointer;
+    background: transparent; color: var(--accent); border: 1px solid var(--border2);
+    padding: 0.85rem 2rem; border-radius: 6px; font-size: 0.95rem; font-weight: 400; cursor: pointer;
     transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     font-family: 'DM Sans', sans-serif;
   }
-  .btn-secondary:hover {
-    background: var(--surface2);
-    border-color: var(--accent);
-    transform: translateY(-2px);
-  }
+  .btn-secondary:hover { background: var(--surface2); border-color: var(--accent); transform: translateY(-2px); }
   .btn-secondary:active { transform: scale(0.98); }
-
   .hero-stats {
-    display: flex;
-    gap: 2.5rem;
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
-    flex-wrap: wrap;
-    justify-content: center;
+    display: flex; gap: 2.5rem; margin-top: 3rem; padding-top: 2rem;
+    border-top: 1px solid var(--border); flex-wrap: wrap; justify-content: center;
   }
   .stat p:first-child { font-size: 1.5rem; font-weight: 500; color: var(--text); }
   .stat p:last-child { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
 
-  /* ===== GENERAL SECTIONS ===== */
-  .section {
-    padding: 5rem 2rem;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-  .section-label {
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: var(--accent2);
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
-  }
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    line-height: 1.2;
-    margin-bottom: 1rem;
-    color: var(--text);
-  }
-  .section-sub {
-    font-size: 0.95rem;
-    color: var(--muted);
-    max-width: 480px;
-    line-height: 1.5;
-    margin-bottom: 3rem;
-  }
+  .section { padding: 5rem 2rem; max-width: 960px; margin: 0 auto; }
+  .section-label { font-size: 0.75rem; letter-spacing: 0.1em; color: var(--accent2); text-transform: uppercase; margin-bottom: 0.75rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.2; margin-bottom: 1rem; color: var(--text); }
+  .section-sub { font-size: 0.95rem; color: var(--muted); max-width: 480px; line-height: 1.5; margin-bottom: 3rem; }
 
-  /* ===== TOPICS GRID ===== */
-  .topics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 16px;
-  }
+  .topics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; }
   .topic-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1rem;
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1rem;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; cursor: pointer;
   }
-  .topic-card:hover {
-    border-color: var(--accent2);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  }
-  .topic-icon {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-  }
-  .topic-card p:first-of-type {
-    font-size: 0.875rem;
-    font-weight: 500;
-    margin-bottom: 2px;
-  }
-  .topic-card p:last-of-type {
-    font-size: 0.75rem;
-    color: var(--muted);
-  }
+  .topic-card:hover { border-color: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+  .topic-icon { font-size: 1.25rem; margin-bottom: 0.5rem; }
+  .topic-card p:first-of-type { font-size: 0.875rem; font-weight: 500; margin-bottom: 2px; }
+  .topic-card p:last-of-type { font-size: 0.75rem; color: var(--muted); }
 
-  /* ===== PRICING SECTION ===== */
-  .pricing-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 24px;
-    margin-top: 2rem;
-  }
+  .pricing-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; margin-top: 2rem; }
   .price-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 1.8rem;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 1.8rem;
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    flex: 1;
-    min-width: 260px;
+    flex: 1; min-width: 260px;
   }
-  .price-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--accent2);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.2);
-  }
-  .price-card.featured {
-    border-color: var(--accent);
-    background: linear-gradient(135deg, rgba(59,130,246,0.08), var(--surface));
-  }
-  .plan-name {
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-  .plan-price {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    margin-bottom: 4px;
-    color: var(--text);
-  }
-  .plan-price span {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    color: var(--muted);
-  }
-  .old-price {
-    font-size: 0.9rem;
-    color: var(--muted);
-    text-decoration: line-through;
-    margin-left: 0.5rem;
-  }
-  .plan-desc {
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-bottom: 1.25rem;
-  }
-  .plan-features {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 1.5rem;
-  }
-  .plan-features li {
-    font-size: 0.825rem;
-    color: var(--muted);
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-  }
-  .plan-features li::before {
-    content: '✓';
-    color: var(--green);
-    font-size: 0.75rem;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
+  .price-card:hover { transform: translateY(-4px); border-color: var(--accent2); box-shadow: 0 12px 24px rgba(0,0,0,0.2); }
+  .price-card.featured { border-color: var(--accent); background: linear-gradient(135deg, rgba(59,130,246,0.08), var(--surface)); }
+  .plan-name { font-size: 0.8rem; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .plan-price { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 4px; color: var(--text); }
+  .plan-price span { font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 400; color: var(--muted); }
+  .old-price { font-size: 0.9rem; color: var(--muted); text-decoration: line-through; margin-left: 0.5rem; }
+  .plan-desc { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.25rem; }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.5rem; }
+  .plan-features li { font-size: 0.825rem; color: var(--muted); display: flex; gap: 8px; align-items: flex-start; }
+  .plan-features li::before { content: '✓'; color: var(--green); font-size: 0.75rem; flex-shrink: 0; margin-top: 1px; }
   .plan-btn {
-    width: 100%;
-    padding: 0.75rem;
-    border-radius: 6px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
+    width: 100%; padding: 0.75rem; border-radius: 6px; font-size: 0.875rem; font-weight: 500; cursor: pointer;
     transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     font-family: 'DM Sans', sans-serif;
   }
-  .plan-btn.filled {
-    background: var(--accent);
-    color: white;
-    border: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  }
-  .plan-btn.filled:hover {
-    background: var(--accent2);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  }
+  .plan-btn.filled { background: var(--accent); color: white; border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+  .plan-btn.filled:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
   .plan-btn.filled:active { transform: scale(0.98); }
   .popular-badge {
-    display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 500;
-    background: var(--accent-glow);
-    color: var(--accent2);
-    border: 1px solid var(--border);
-    padding: 2px 10px;
-    border-radius: 20px;
-    margin-bottom: 10px;
+    display: inline-block; font-size: 0.7rem; font-weight: 500;
+    background: var(--accent-glow); color: var(--accent2); border: 1px solid var(--border);
+    padding: 2px 10px; border-radius: 20px; margin-bottom: 10px;
   }
-
-  /* Toggle switch */
-  .billing-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  .toggle-option {
-    font-size: 0.9rem;
-    color: var(--muted);
-    cursor: pointer;
-    transition: color 0.2s ease;
-  }
-  .toggle-option.active {
-    color: var(--accent);
-    font-weight: 500;
-  }
-  .toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 28px;
-  }
-  .toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
+  .billing-toggle { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1.5rem; }
+  .toggle-option { font-size: 0.9rem; color: var(--muted); cursor: pointer; transition: color 0.2s ease; }
+  .toggle-option.active { color: var(--accent); font-weight: 500; }
+  .toggle-switch { position: relative; display: inline-block; width: 60px; height: 28px; }
+  .toggle-switch input { opacity: 0; width: 0; height: 0; }
   .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--border2);
-    transition: 0.3s;
-    border-radius: 34px;
-    border: none;
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--border2); transition: 0.3s; border-radius: 34px; border: none;
   }
   .slider:before {
-    position: absolute;
-    content: "";
-    height: 22px;
-    width: 22px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: 0.3s;
-    border-radius: 50%;
+    position: absolute; content: ""; height: 22px; width: 22px;
+    left: 3px; bottom: 3px; background-color: white; transition: 0.3s; border-radius: 50%;
   }
-  input:checked + .slider {
-    background-color: var(--accent);
-  }
-  input:checked + .slider:before {
-    transform: translateX(30px);
-  }
+  input:checked + .slider { background-color: var(--accent); }
+  input:checked + .slider:before { transform: translateX(30px); }
 
-  /* ===== RESOURCE PAGES ===== */
+  /* ===== RESOURCE & TUTOR PAGES ===== */
   .resource-page, .ai-tutor-page {
-    display: none;
-    padding: 6rem 2rem 4rem;
-    max-width: 960px;
-    margin: 0 auto;
+    display: none; padding: 6rem 2rem 4rem; max-width: 960px; margin: 0 auto;
   }
-  .resource-page.active, .ai-tutor-page.active {
-    display: block;
-  }
+  .resource-page.active, .ai-tutor-page.active { display: block; }
+
   .back-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 0.6rem 1.2rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    margin-bottom: 2rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    background: transparent; border: 1px solid var(--border); color: var(--muted);
+    padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+    margin-bottom: 2rem; display: inline-flex; align-items: center; gap: 6px;
     transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
   }
-  .back-btn:hover {
-    background: var(--surface2);
-    color: var(--accent2);
-    transform: translateX(-2px);
-  }
+  .back-btn:hover { background: var(--surface2); color: var(--accent2); transform: translateX(-2px); }
   .back-btn:active { transform: scale(0.98); }
 
-  .level-cards {
-    display: flex;
-    gap: 2rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 3rem 0;
-  }
+  .level-cards { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin: 3rem 0; }
   .level-card {
-    flex: 1;
-    min-width: 240px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2.5rem 1.5rem;
-    text-align: center;
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
+    flex: 1; min-width: 240px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2.5rem 1.5rem; text-align: center;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; cursor: pointer;
   }
-  .level-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--accent2);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.2);
-  }
+  .level-card:hover { transform: translateY(-4px); border-color: var(--accent2); box-shadow: 0 12px 24px rgba(0,0,0,0.2); }
   .level-card:active { transform: scale(0.98); }
-  .level-card h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
-  .level-card p {
-    color: var(--muted);
-    font-size: 0.9rem;
-  }
-
+  .level-card h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 0.5rem; }
+  .level-card p { color: var(--muted); font-size: 0.9rem; }
   .resource-link {
-    display: inline-block;
-    background: var(--accent);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 0.85rem;
+    display: inline-block; background: var(--accent); color: white;
+    padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-size: 0.85rem;
     transition: background 0.2s ease, transform 0.2s ease;
   }
-  .resource-link:hover {
-    background: var(--accent2);
-    transform: translateY(-1px);
-  }
+  .resource-link:hover { background: var(--accent2); transform: translateY(-1px); }
   .resource-link:active { transform: scale(0.98); }
 
   .topic-library { display: none; margin-top: 2rem; }
-  .topic-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-top: 2rem;
-  }
+  .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
   .topic-card-small {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1rem;
-    text-align: center;
-    cursor: pointer;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1rem; text-align: center; cursor: pointer;
     transition: transform 0.2s ease, border-color 0.2s ease;
   }
-  .topic-card-small:hover {
-    transform: translateY(-4px);
-    border-color: var(--accent2);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  }
-  .topic-card-small h3 {
-    font-size: 1rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-  }
+  .topic-card-small:hover { transform: translateY(-4px); border-color: var(--accent2); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+  .topic-card-small h3 { font-size: 1rem; font-weight: 500; margin-bottom: 0.5rem; }
 
+  /* ===== PDF VIEWER ===== */
   .pdf-viewer {
-    background: var(--surface2);
-    border-radius: 20px;
-    padding: 1rem;
-    margin-top: 2rem;
-    display: none;
-    flex-direction: column;
-    gap: 1rem;
+    background: var(--surface2); border-radius: 20px; padding: 1rem;
+    margin-top: 2rem; display: none; flex-direction: column; gap: 1rem;
   }
+  /* CRITICAL: cursor ring must hide over the entire pdf-viewer div including iframe */
+  .pdf-viewer:hover ~ * .cursor-glow,
+  .pdf-viewer *:hover ~ .cursor-glow { opacity: 0 !important; }
+
   .pdf-viewer iframe {
-    width: 100%;
-    height: 80vh;
-    border: none;
-    border-radius: 12px;
-    background: white;
+    width: 100%; height: 80vh; border: none; border-radius: 12px; background: white;
+    /* pointer-events stay on so user can interact with PDF */
   }
   .pdf-viewer .viewer-back-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 0.6rem 1.2rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    margin-bottom: 0;
-    width: fit-content;
+    background: transparent; border: 1px solid var(--border); color: var(--muted);
+    padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+    margin-bottom: 0; width: fit-content;
     transition: background 0.2s ease, transform 0.2s ease;
   }
-  .pdf-viewer .viewer-back-btn:hover {
-    background: var(--surface2);
-    color: var(--accent2);
-    transform: translateX(-2px);
-  }
+  .pdf-viewer .viewer-back-btn:hover { background: var(--surface2); color: var(--accent2); transform: translateX(-2px); }
   .pdf-viewer .viewer-back-btn:active { transform: scale(0.98); }
 
-  /* ===== AI CHAT (main) ===== */
-  .chat-window {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    margin-top: 2rem;
-  }
-  .chat-header {
-    padding: 1rem 1.25rem;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+  /* ===== CHAT ===== */
+  .chat-window { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 2rem; }
+  .chat-header { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
   .chat-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: var(--accent-glow);
-    border: 1px solid var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    color: var(--accent2);
-    font-weight: 500;
+    width: 32px; height: 32px; border-radius: 50%; background: var(--accent-glow);
+    border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; color: var(--accent2); font-weight: 500;
   }
   .chat-header-info p:first-child { font-size: 0.875rem; font-weight: 500; }
   .chat-header-info p:last-child { font-size: 0.75rem; color: var(--green); }
   .chat-messages {
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    min-height: 320px;
-    max-height: 420px;
-    overflow-y: auto;
+    padding: 1.25rem; display: flex; flex-direction: column;
+    gap: 12px; min-height: 320px; max-height: 420px; overflow-y: auto;
   }
-  .msg {
-    display: flex;
-    flex-direction: column;
-    max-width: 80%;
-    animation: fadeSlideUp 0.25s ease-out;
-  }
+  .msg { display: flex; flex-direction: column; max-width: 80%; animation: fadeSlideUp 0.25s ease-out; }
   .msg.user { align-self: flex-end; align-items: flex-end; }
   .msg.ai { align-self: flex-start; align-items: flex-start; }
-  .bubble {
-    padding: 0.75rem 1rem;
-    border-radius: 12px;
-    font-size: 0.875rem;
-    line-height: 1.5;
-    white-space: pre-wrap;
-  }
+  .bubble { padding: 0.75rem 1rem; border-radius: 12px; font-size: 0.875rem; line-height: 1.5; white-space: pre-wrap; }
   .bubble.user { background: var(--accent); color: white; border-radius: 12px 12px 2px 12px; }
   .bubble.ai { background: var(--surface2); color: var(--text); border-radius: 12px 12px 12px 2px; }
   .msg-name { font-size: 0.7rem; color: var(--muted); margin-bottom: 4px; }
   .typing-cursor {
-    display: inline-block;
-    width: 2px;
-    height: 1.2em;
-    background: var(--accent2);
-    margin-left: 2px;
-    vertical-align: middle;
-    animation: blink 1s step-end infinite;
+    display: inline-block; width: 2px; height: 1.2em; background: var(--accent2);
+    margin-left: 2px; vertical-align: middle; animation: blink 1s step-end infinite;
   }
-  @keyframes blink {
-    0%,100%{opacity:1}
-    50%{opacity:0}
-  }
-  .chat-input-area {
-    padding: 1rem 1.25rem;
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 8px;
-    align-items: flex-end;
-  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  .chat-input-area { padding: 1rem 1.25rem; border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: flex-end; }
   .chat-input-area textarea {
-    flex: 1;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.65rem 0.9rem;
-    color: var(--text);
-    font-size: 0.875rem;
-    resize: none;
-    outline: none;
-    transition: border-color 0.25s ease;
-    line-height: 1.5;
+    flex: 1; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 0.65rem 0.9rem; color: var(--text);
+    font-size: 0.875rem; resize: none; outline: none; transition: border-color 0.25s ease; line-height: 1.5;
   }
   .chat-input-area textarea:focus { border-color: var(--accent2); }
   .send-btn {
-    background: var(--accent);
-    color: white;
-    border: none;
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s ease, transform 0.2s ease;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    background: var(--accent); color: white; border: none; width: 38px; height: 38px;
+    border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s ease, transform 0.2s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   }
-  .send-btn:hover {
-    background: var(--accent2);
-    transform: scale(1.05);
-  }
+  .send-btn:hover { background: var(--accent2); transform: scale(1.05); }
   .send-btn:active { transform: scale(0.95); }
   .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
   .quick-btns { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 1.25rem 0.75rem; }
   .quick-btn {
-    font-size: 0.75rem;
-    color: var(--muted);
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 0.3rem 0.75rem;
-    cursor: pointer;
+    font-size: 0.75rem; color: var(--muted); background: var(--surface2);
+    border: 1px solid var(--border); border-radius: 20px; padding: 0.3rem 0.75rem; cursor: pointer;
     transition: background 0.2s ease, transform 0.2s ease;
   }
-  .quick-btn:hover {
-    color: var(--accent2);
-    background: var(--surface);
-    border-color: var(--accent2);
-    transform: translateY(-1px);
-  }
+  .quick-btn:hover { color: var(--accent2); background: var(--surface); border-color: var(--accent2); transform: translateY(-1px); }
   .quick-btn:active { transform: scale(0.95); }
   .trial-note { font-size: 0.75rem; color: var(--muted); text-align: center; padding: 0.5rem; }
 
-  /* ===== LOADER (atom) ===== */
+  /* ===== LOADER ===== */
   .loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    transition: opacity 0.3s ease;
-    opacity: 0;
-    pointer-events: none;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center; z-index: 1000;
+    transition: opacity 0.3s ease; opacity: 0; pointer-events: none;
   }
   .loading-overlay.active { opacity: 1; pointer-events: all; }
-  .atom-loader {
-    position: relative;
-    width: 80px;
-    height: 80px;
-  }
+  .atom-loader { position: relative; width: 80px; height: 80px; }
   .atom-core {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 20px;
-    height: 20px;
-    background: radial-gradient(circle, var(--accent2), var(--accent));
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 12px var(--accent2);
+    position: absolute; top: 50%; left: 50%; width: 20px; height: 20px;
+    background: radial-gradient(circle, var(--accent2), var(--accent)); border-radius: 50%;
+    transform: translate(-50%, -50%); box-shadow: 0 0 12px var(--accent2);
     animation: corePulse 1.5s infinite alternate;
   }
   .orbit {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 2px solid rgba(59,130,246,0.2);
-    border-radius: 50%;
+    position: absolute; width: 100%; height: 100%;
+    border: 2px solid rgba(59,130,246,0.2); border-radius: 50%;
     animation: rotate 3s linear infinite;
   }
   .orbit::before {
-    content: "";
-    position: absolute;
-    top: -6px;
-    left: 50%;
-    width: 12px;
-    height: 12px;
-    background: var(--accent2);
-    border-radius: 50%;
-    transform: translateX(-50%);
-    box-shadow: 0 0 8px var(--accent2);
+    content: ""; position: absolute; top: -6px; left: 50%;
+    width: 12px; height: 12px; background: var(--accent2); border-radius: 50%;
+    transform: translateX(-50%); box-shadow: 0 0 8px var(--accent2);
   }
-  .orbit:nth-child(2) {
-    animation-duration: 2.2s;
-    animation-direction: reverse;
-    border-color: rgba(59,130,246,0.3);
-  }
-  .orbit:nth-child(3) {
-    animation-duration: 3.8s;
-    border-color: rgba(59,130,246,0.1);
-    width: 70%;
-    height: 70%;
-    top: 15%;
-    left: 15%;
-  }
-  @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
+  .orbit:nth-child(2) { animation-duration: 2.2s; animation-direction: reverse; border-color: rgba(59,130,246,0.3); }
+  .orbit:nth-child(3) { animation-duration: 3.8s; border-color: rgba(59,130,246,0.1); width: 70%; height: 70%; top: 15%; left: 15%; }
+  @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   @keyframes corePulse {
     0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; box-shadow: 0 0 8px var(--accent2); }
     100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; box-shadow: 0 0 18px var(--accent2); }
@@ -867,22 +373,18 @@
 
   /* ===== CURSOR RING ===== */
   .cursor-glow {
-    position: fixed;
-    width: 40px;
-    height: 40px;
-    border: 2px solid var(--accent2);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
+    position: fixed; width: 40px; height: 40px;
+    border: 2px solid var(--accent2); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
     transform: translate(-50%, -50%);
     opacity: 0;
-    transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
-    box-shadow: 0 0 6px var(--accent2);
-    background: transparent;
+    transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease,
+                box-shadow 0.2s ease, opacity 0.15s ease;
+    box-shadow: 0 0 6px var(--accent2); background: transparent;
   }
-  .cursor-glow.ripple {
-    animation: cursorRipple 0.3s ease-out forwards;
-  }
+  /* When body has pdf-hover class, hide ring immediately */
+  body.pdf-hover .cursor-glow { opacity: 0 !important; transition: opacity 0.05s ease; }
+
   @keyframes cursorRipple {
     0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
     100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
@@ -890,23 +392,12 @@
 
   /* ===== PAGE TRANSITION ===== */
   .page-transition {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--bg);
-    z-index: 999;
-    transform: scaleY(0);
-    transform-origin: top;
-    transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-    pointer-events: none;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg);
+    z-index: 999; transform: scaleY(0); transform-origin: top;
+    transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1); pointer-events: none;
   }
-  .page-transition.active {
-    transform: scaleY(1);
-  }
+  .page-transition.active { transform: scaleY(1); }
 
-  /* ===== ANIMATIONS ===== */
   .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
   .fade-up.visible { opacity: 1; transform: translateY(0); }
   .stagger-children > * { opacity: 0; transform: translateY(20px); transition: all 0.4s ease; }
@@ -920,149 +411,54 @@
   .stagger-children > *:nth-child(7) { transition-delay: 0.3s; }
   .stagger-children > *:nth-child(8) { transition-delay: 0.35s; }
 
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 2rem;
-    text-align: center;
-    font-size: 0.8rem;
-    color: var(--muted);
-  }
+  @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+  footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-size: 0.8rem; color: var(--muted); }
   footer a { color: var(--muted); text-decoration: none; transition: color 0.2s ease; }
   footer a:hover { color: var(--accent2); }
 
   /* ===== FLOATING CHAT ASSISTANT ===== */
-  .floating-chat {
-    position: fixed;
-    bottom: 2rem;
-    left: 2rem;
-    z-index: 1000;
-    display: none;
-  }
-  .floating-chat.active {
-    display: block;
-  }
+  .floating-chat { position: fixed; bottom: 2rem; left: 2rem; z-index: 1000; display: none; }
+  .floating-chat.active { display: block; }
   .chat-button {
-    background: var(--accent);
-    border-radius: 40px;
-    padding: 0.6rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
+    background: var(--accent); border-radius: 40px; padding: 0.6rem 1rem;
+    display: flex; align-items: center; gap: 8px; cursor: pointer;
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease; white-space: nowrap;
   }
-  .chat-button span {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: white;
-  }
-  .chat-button svg {
-    width: 24px;
-    height: 24px;
-    stroke: white;
-    stroke-width: 1.5;
-    fill: none;
-  }
-  .chat-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-  }
+  .chat-button span { font-size: 0.9rem; font-weight: 500; color: white; }
+  .chat-button svg { width: 24px; height: 24px; stroke: white; stroke-width: 1.5; fill: none; }
+  .chat-button:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
   .chat-button:active { transform: scale(0.98); }
-
   .chat-window-assist {
-    display: none;
-    position: fixed;
-    bottom: 80px;
-    left: 20px;
-    width: 360px;
-    max-width: calc(100vw - 40px);
-    height: 500px;
-    max-height: 70vh;
-    background: var(--surface);
-    backdrop-filter: blur(8px);
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    flex-direction: column;
-    overflow: hidden;
-    z-index: 1001;
+    display: none; position: fixed; bottom: 80px; left: 20px;
+    width: 360px; max-width: calc(100vw - 40px); height: 500px; max-height: 70vh;
+    background: var(--surface); backdrop-filter: blur(8px); border-radius: 20px;
+    border: 1px solid var(--border); box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    flex-direction: column; overflow: hidden; z-index: 1001;
   }
-  .chat-window-assist.active {
-    display: flex;
-  }
+  .chat-window-assist.active { display: flex; }
   .chat-header-assist {
-    padding: 0.8rem 1rem;
-    background: var(--surface2);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 0.8rem 1rem; background: var(--surface2); border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
   }
-  .chat-header-assist h4 {
-    font-size: 1rem;
-    margin: 0;
-    color: var(--accent2);
-  }
-  .close-chat {
-    background: none;
-    border: none;
-    color: var(--muted);
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: color 0.2s;
-  }
-  .close-chat:hover {
-    color: var(--text);
-  }
-  .chat-messages-assist {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .chat-input-assist {
-    padding: 0.8rem;
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 8px;
-    align-items: flex-end;
-  }
+  .chat-header-assist h4 { font-size: 1rem; margin: 0; color: var(--accent2); }
+  .close-chat { background: none; border: none; color: var(--muted); font-size: 1.2rem; cursor: pointer; transition: color 0.2s; }
+  .close-chat:hover { color: var(--text); }
+  .chat-messages-assist { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 10px; }
+  .chat-input-assist { padding: 0.8rem; border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: flex-end; }
   .chat-input-assist textarea {
-    flex: 1;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 0.5rem 1rem;
-    color: var(--text);
-    font-size: 0.85rem;
-    resize: none;
-    outline: none;
-    font-family: 'DM Sans', sans-serif;
-    line-height: 1.4;
+    flex: 1; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 20px; padding: 0.5rem 1rem; color: var(--text);
+    font-size: 0.85rem; resize: none; outline: none; font-family: 'DM Sans', sans-serif; line-height: 1.4;
   }
-  .chat-input-assist textarea:focus {
-    border-color: var(--accent2);
-  }
+  .chat-input-assist textarea:focus { border-color: var(--accent2); }
   .send-assist {
-    background: var(--accent);
-    color: white;
-    border: none;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: var(--accent); color: white; border: none; width: 34px; height: 34px;
+    border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
     transition: background 0.2s, transform 0.1s;
   }
-  .send-assist:hover {
-    background: var(--accent2);
-  }
+  .send-assist:hover { background: var(--accent2); }
   .send-assist:active { transform: scale(0.95); }
 
   @media (max-width: 600px) {
@@ -1077,7 +473,6 @@
     .nav-links { gap: 1rem; }
     .pdf-viewer iframe { height: 60vh; }
     .pricing-grid { flex-direction: column; align-items: center; }
-    .cursor-glow { width: 30px; height: 30px; }
     .chat-window-assist { width: 300px; height: 450px; bottom: 70px; }
   }
 </style>
@@ -1100,7 +495,14 @@
   </div>
 </nav>
 
-<div id="loadingOverlay" class="loading-overlay"><div class="atom-loader"><div class="atom-core"></div><div class="orbit"></div><div class="orbit"></div><div class="orbit"></div></div></div>
+<div id="loadingOverlay" class="loading-overlay">
+  <div class="atom-loader">
+    <div class="atom-core"></div>
+    <div class="orbit"></div>
+    <div class="orbit"></div>
+    <div class="orbit"></div>
+  </div>
+</div>
 
 <!-- MAIN CONTENT -->
 <div id="mainContent">
@@ -1187,80 +589,96 @@
   </footer>
 </div>
 
-<!-- RESOURCE PAGES -->
+<!-- O-LEVEL RESOURCES -->
 <div id="olevelResources" class="resource-page">
-  <button class="back-btn" id="backToMainFromOlevel" onclick="goBack()">← Back</button>
+  <!-- back button: goes to main -->
+  <button class="back-btn" id="backFromOlevel">← Back to Home</button>
   <div class="section-label">Resources</div>
   <div class="section-title">O-Level / IGCSE</div>
   <p class="section-sub">Study materials, past papers, and worksheets for Cambridge, Edexcel, and AQA.</p>
   <div class="level-cards">
     <div class="level-card">
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 0.75rem;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-      <h2>Notes</h2>
-      <p>Topic-wise notes, formula sheets</p>
-      <a href="#" class="resource-link">Coming soon</a>
+      <h2>Notes</h2><p>Topic-wise notes, formula sheets</p>
+      <a href="#" class="resource-link" style="margin-top:1rem;display:block;">Coming soon</a>
     </div>
     <div class="level-card">
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 0.75rem;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-      <h2>Worksheets</h2>
-      <p>Practice questions by topic</p>
-      <a href="#" class="resource-link">Coming soon</a>
+      <h2>Worksheets</h2><p>Practice questions by topic</p>
+      <a href="#" class="resource-link" style="margin-top:1rem;display:block;">Coming soon</a>
     </div>
     <div class="level-card">
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 0.75rem;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-4"/><path d="M8 18v-4"/><path d="M16 18v-4"/></svg>
-      <h2>Past Papers</h2>
-      <p>Recent papers with mark schemes</p>
-      <a href="#" class="resource-link">Coming soon</a>
+      <h2>Past Papers</h2><p>Recent papers with mark schemes</p>
+      <a href="#" class="resource-link" style="margin-top:1rem;display:block;">Coming soon</a>
     </div>
   </div>
 </div>
 
+<!-- A-LEVEL RESOURCES -->
 <div id="alevelResources" class="resource-page">
-  <button class="back-btn" id="backToMainFromAlevel" onclick="goBack()">← Back</button>
-  <div class="section-label">Resources</div>
-  <div class="section-title">A-Level</div>
-  <p class="section-sub">Choose your level to access notes, worksheets, and past papers.</p>
-  <div id="alevelSelection" class="level-cards">
-    <div class="level-card" data-level="as"><h2>AS Level</h2><p>Year 1 · Core topics</p></div>
-    <div class="level-card" data-level="a2"><h2>A2 Level</h2><p>Year 2 · Advanced topics</p></div>
-  </div>
-  <div id="asResources" class="resource-container" style="display: none;">
-    <div class="section-sub">AS Level Resources</div>
-    <div class="level-cards">
-      <div class="level-card"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 0.75rem;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><h2>Notes</h2><p>Topic-wise notes for AS</p><a href="#" class="resource-link">Coming soon</a></div>
-      <div class="level-card"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 0.75rem;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg><h2>Worksheets</h2><p>Practice questions by topic</p><a href="#" class="resource-link">Coming soon</a></div>
-      <div class="level-card"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 0.75rem;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-4"/><path d="M8 18v-4"/><path d="M16 18v-4"/></svg><h2>Past Papers</h2><p>P1, P2, P3 with mark schemes</p><a href="#" class="resource-link">Coming soon</a></div>
+
+  <!-- STATE 1: Level Selection (AS / A2) — back goes to Home -->
+  <div id="alevelState1">
+    <button class="back-btn" id="backFromAlevelState1">← Back to Home</button>
+    <div class="section-label">Resources</div>
+    <div class="section-title">A-Level</div>
+    <p class="section-sub">Choose your level to access notes, worksheets, and past papers.</p>
+    <div id="alevelSelection" class="level-cards">
+      <div class="level-card" data-level="as"><h2>AS Level</h2><p>Year 1 · Core topics</p></div>
+      <div class="level-card" data-level="a2"><h2>A2 Level</h2><p>Year 2 · Advanced topics</p></div>
     </div>
   </div>
-  <div id="a2Resources" class="resource-container" style="display: none;">
-    <div class="section-sub">A2 Level Resources</div>
+
+  <!-- STATE 2: AS Resources — back goes to Level Selection -->
+  <div id="alevelState2AS" style="display:none;">
+    <button class="back-btn" id="backFromAS">← Back to A-Level</button>
+    <div class="section-sub" style="margin-bottom:1rem;">AS Level Resources</div>
+    <div class="level-cards">
+      <div class="level-card"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:0.75rem;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><h2>Notes</h2><p>Topic-wise notes for AS</p><a href="#" class="resource-link" style="margin-top:1rem;display:block;">Coming soon</a></div>
+      <div class="level-card"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:0.75rem;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg><h2>Worksheets</h2><p>Practice questions by topic</p><a href="#" class="resource-link" style="margin-top:1rem;display:block;">Coming soon</a></div>
+      <div class="level-card"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:0.75rem;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-4"/><path d="M8 18v-4"/><path d="M16 18v-4"/></svg><h2>Past Papers</h2><p>P1, P2, P3 with mark schemes</p><a href="#" class="resource-link" style="margin-top:1rem;display:block;">Coming soon</a></div>
+    </div>
+  </div>
+
+  <!-- STATE 3: A2 Resource Cards — back goes to Level Selection -->
+  <div id="alevelState3A2" style="display:none;">
+    <button class="back-btn" id="backFromA2">← Back to A-Level</button>
+    <div class="section-sub" style="margin-bottom:1rem;">A2 Level Resources</div>
     <div id="a2ResourceCards" class="level-cards">
       <div class="level-card">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 0.75rem;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        <h2>Notes</h2>
-        <p>Topic-wise notes for A2 Physics</p>
-        <button id="openNotesLibraryBtn" class="resource-link" style="margin-top: 1rem; width: 100%;">View Notes →</button>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:0.75rem;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <h2>Notes</h2><p>Topic-wise notes for A2 Physics</p>
+        <button id="openNotesLibraryBtn" class="resource-link" style="margin-top:1rem;width:100%;border:none;cursor:pointer;">View Notes →</button>
       </div>
-      <div class="level-card"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 0.75rem;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg><h2>Worksheets</h2><p>Practice questions by topic</p><a href="#" class="resource-link">Coming soon</a></div>
-      <div class="level-card"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 0.75rem;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-4"/><path d="M8 18v-4"/><path d="M16 18v-4"/></svg><h2>Past Papers</h2><p>P4, P5 with mark schemes</p><a href="#" class="resource-link">Coming soon</a></div>
+      <div class="level-card"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:0.75rem;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg><h2>Worksheets</h2><p>Practice questions by topic</p><a href="#" class="resource-link" style="margin-top:1rem;display:block;">Coming soon</a></div>
+      <div class="level-card"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:0.75rem;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-4"/><path d="M8 18v-4"/><path d="M16 18v-4"/></svg><h2>Past Papers</h2><p>P4, P5 with mark schemes</p><a href="#" class="resource-link" style="margin-top:1rem;display:block;">Coming soon</a></div>
     </div>
-    <div id="notesLibrary" class="topic-library">
-      <div class="section-sub">A2 Physics Notes</div>
-      <div id="topicGridContainer" class="topic-grid"></div>
-    </div>
-    <div id="a2PdfViewer" class="pdf-viewer">
-      <button class="viewer-back-btn" id="closePdfViewerFromLibrary">← Back to notes library</button>
+  </div>
+
+  <!-- STATE 4: Notes Library — back goes to A2 Resource Cards -->
+  <div id="alevelState4Library" style="display:none;">
+    <button class="back-btn" id="backFromLibrary">← Back to A2 Resources</button>
+    <div class="section-sub" style="margin-bottom:1rem;">A2 Physics Notes</div>
+    <div id="topicGridContainer" class="topic-grid"></div>
+  </div>
+
+  <!-- STATE 5: PDF Viewer — back goes to Notes Library -->
+  <div id="alevelState5PDF" style="display:none;">
+    <div class="pdf-viewer" id="a2PdfViewer" style="display:flex;">
+      <button class="viewer-back-btn" id="backFromPDF">← Back to notes library</button>
       <iframe id="pdfIframe" src="" title="PDF Viewer"></iframe>
-      <div style="margin-top: 1rem; text-align: center;">
-        <a id="pdfDownloadLink" class="download-link" target="_blank">📥 Download PDF (if viewer doesn't load)</a>
+      <div style="margin-top:1rem;text-align:center;">
+        <a id="pdfDownloadLink" class="resource-link" target="_blank">📥 Download PDF (if viewer doesn't load)</a>
       </div>
     </div>
   </div>
+
 </div>
 
 <!-- AI TUTOR PAGE -->
 <div id="aiTutorPage" class="ai-tutor-page">
-  <button class="back-btn" id="backToMainFromAI" onclick="goBack()">← Back</button>
+  <button class="back-btn" id="backFromAI">← Back</button>
   <div class="section-label">AI Tutor</div>
   <div class="section-title">Your personal physics tutor</div>
   <p class="section-sub">Ask any physics question. Get step‑by‑step answers. <strong>Unlimited questions (testing mode)</strong></p>
@@ -1270,7 +688,9 @@
       <div class="chat-header-info"><p>Lumiq AI Tutor</p><p>Online now</p></div>
     </div>
     <div class="chat-messages" id="chatMessages">
-      <div class="msg ai"><p class="msg-name">Lumiq</p><div class="bubble ai">Hi! I'm your Lumiq physics tutor. I can help with any A-level or O-level physics topic — concepts, formulas, past paper questions, or exam technique.\n\nWhat would you like to work on today?</div></div>
+      <div class="msg ai"><p class="msg-name">Lumiq</p><div class="bubble ai">Hi! I'm your Lumiq physics tutor. I can help with any A-level or O-level physics topic — concepts, formulas, past paper questions, or exam technique.
+
+What would you like to work on today?</div></div>
     </div>
     <div class="quick-btns" id="quickBtns">
       <button class="quick-btn" onclick="quickAsk('Explain Newton\'s second law with an example')">Newton's laws</button>
@@ -1279,8 +699,12 @@
       <button class="quick-btn" onclick="quickAsk('Quiz me on kinematics equations')">Quiz me</button>
     </div>
     <div class="chat-input-area">
-      <textarea id="userInput" placeholder="Ask a physics question..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
-      <button class="send-btn" id="sendBtn" onclick="sendMessage()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+      <textarea id="userInput" placeholder="Ask a physics question..." rows="1"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
+        oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
     </div>
     <p class="trial-note">Unlimited questions · 7‑day free trial on subscription</p>
   </div>
@@ -1294,7 +718,7 @@
     <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
     </svg>
-    <span id="chatButtonText">Ask Lumiq about this</span>
+    <span>Ask Lumiq about this</span>
   </div>
   <div class="chat-window-assist" id="assistChatWindow">
     <div class="chat-header-assist">
@@ -1317,573 +741,379 @@
 </div>
 
 <script>
-  // ===== A2 NOTES DATA =====
-  const a2NotesTopics = [
-    { name: "Alternating Currents", url: "https://drive.google.com/file/d/1foRes6OdQ6iRC7GlrFuVRf_LijDH8mjC/preview", description: "Alternating currents, RMS, transformers, AC circuits." },
-    { name: "Astronomy & Cosmology", url: "https://drive.google.com/file/d/1ozfTU_lySaWeZxDZOC0pFUMfUo3dbLNj/preview", description: "Stellar evolution, galaxies, cosmology, redshift." },
-    { name: "Capacitance", url: "https://drive.google.com/file/d/11_9Ud3jh87XyvGfjBaCdqXvxlmyvj890/preview", description: "Capacitors, capacitance, dielectrics, energy stored." },
-    { name: "Circular & Gravitational Fields", url: "https://drive.google.com/file/d/1fy3UOKRTTKCFb5_lki9VzE5fs1ZToCO3/preview", description: "Circular motion, gravitational fields, orbital mechanics." },
-    { name: "Electric Fields", url: "https://drive.google.com/file/d/1SJLlZRrGJCezmgGcPtGaa4elvH1kivDc/preview", description: "Electric fields, Coulomb's law, potential, field lines." },
-    { name: "Gravitational Fields", url: "https://drive.google.com/file/d/1__FW3EqPPcO2N9jKwOiphjWiPnmHoBVo/preview", description: "Newton's law of gravitation, field strength, potential." },
-    { name: "Ideal Gases", url: "https://drive.google.com/file/d/1TFlpqjPOS6Y_hNIWVbhc32Nd4N42m9OJ/preview", description: "Gas laws, kinetic theory, ideal gas equation." },
-    { name: "Magnetic Fields", url: "https://drive.google.com/file/d/1zTqr01_4QISP-DaWFfHzQn8S9wavaAcf/preview", description: "Magnetic fields, forces on charges, electromagnetism." },
-    { name: "Medical Physics", url: "https://drive.google.com/file/d/1ysX0RQhoaxTNtff2pbTr24xqhHYOAKbQ/preview", description: "Medical imaging, X‑rays, ultrasound, MRI basics." },
-    { name: "Medical Imaging, Astronomy & Cosmology", url: "https://drive.google.com/file/d/1lMZmJ-vAK6-l8VNmBMNyUiTtHAObKqhM/preview", description: "Advanced imaging, astronomy, cosmology." },
-    { name: "Motion in a Circle", url: "https://drive.google.com/file/d/1zprQZGH8nD8V5XqwpKKFdl-3w3zGP3Do/preview", description: "Angular velocity, centripetal force, applications." },
-    { name: "Nuclear Physics", url: "https://drive.google.com/file/d/1k-O3Qr8pLziLWznRggTb7VBrZr7vGkpg/preview", description: "Nuclear structure, radioactivity, decay, fission/fusion." },
-    { name: "Oscillations", url: "https://drive.google.com/file/d/1E90LZO2g2T8dYc7LXQAVjp0y3nb4LaAs/preview", description: "Simple harmonic motion, damping, resonance." },
-    { name: "Quantum Physics", url: "https://drive.google.com/file/d/1St1SWbJ_aqSmATEbGD7EUIaxPZg1XAr3/preview", description: "Photoelectric effect, wave‑particle duality, quantum theory." },
-    { name: "Temperature", url: "https://drive.google.com/file/d/1pAKVhDmNZ30UG_2NQYqZoNy1HhfRvWQy/preview", description: "Temperature scales, thermal expansion, thermometers." },
-    { name: "Thermodynamics", url: "https://drive.google.com/file/d/1EuQFYFVt7NZDfho8K680KTH2KF3a2dGa/preview", description: "Laws of thermodynamics, heat engines, entropy." }
-  ];
+// ===== A2 NOTES DATA =====
+const a2NotesTopics = [
+  { name: "Alternating Currents", url: "https://drive.google.com/file/d/1foRes6OdQ6iRC7GlrFuVRf_LijDH8mjC/preview", description: "Alternating currents, RMS, transformers, AC circuits." },
+  { name: "Astronomy & Cosmology", url: "https://drive.google.com/file/d/1ozfTU_lySaWeZxDZOC0pFUMfUo3dbLNj/preview", description: "Stellar evolution, galaxies, cosmology, redshift." },
+  { name: "Capacitance", url: "https://drive.google.com/file/d/11_9Ud3jh87XyvGfjBaCdqXvxlmyvj890/preview", description: "Capacitors, capacitance, dielectrics, energy stored." },
+  { name: "Circular & Gravitational Fields", url: "https://drive.google.com/file/d/1fy3UOKRTTKCFb5_lki9VzE5fs1ZToCO3/preview", description: "Circular motion, gravitational fields, orbital mechanics." },
+  { name: "Electric Fields", url: "https://drive.google.com/file/d/1SJLlZRrGJCezmgGcPtGaa4elvH1kivDc/preview", description: "Electric fields, Coulomb's law, potential, field lines." },
+  { name: "Gravitational Fields", url: "https://drive.google.com/file/d/1__FW3EqPPcO2N9jKwOiphjWiPnmHoBVo/preview", description: "Newton's law of gravitation, field strength, potential." },
+  { name: "Ideal Gases", url: "https://drive.google.com/file/d/1TFlpqjPOS6Y_hNIWVbhc32Nd4N42m9OJ/preview", description: "Gas laws, kinetic theory, ideal gas equation." },
+  { name: "Magnetic Fields", url: "https://drive.google.com/file/d/1zTqr01_4QISP-DaWFfHzQn8S9wavaAcf/preview", description: "Magnetic fields, forces on charges, electromagnetism." },
+  { name: "Medical Physics", url: "https://drive.google.com/file/d/1ysX0RQhoaxTNtff2pbTr24xqhHYOAKbQ/preview", description: "Medical imaging, X‑rays, ultrasound, MRI basics." },
+  { name: "Medical Imaging, Astronomy & Cosmology", url: "https://drive.google.com/file/d/1lMZmJ-vAK6-l8VNmBMNyUiTtHAObKqhM/preview", description: "Advanced imaging, astronomy, cosmology." },
+  { name: "Motion in a Circle", url: "https://drive.google.com/file/d/1zprQZGH8nD8V5XqwpKKFdl-3w3zGP3Do/preview", description: "Angular velocity, centripetal force, applications." },
+  { name: "Nuclear Physics", url: "https://drive.google.com/file/d/1k-O3Qr8pLziLWznRggTb7VBrZr7vGkpg/preview", description: "Nuclear structure, radioactivity, decay, fission/fusion." },
+  { name: "Oscillations", url: "https://drive.google.com/file/d/1E90LZO2g2T8dYc7LXQAVjp0y3nb4LaAs/preview", description: "Simple harmonic motion, damping, resonance." },
+  { name: "Quantum Physics", url: "https://drive.google.com/file/d/1St1SWbJ_aqSmATEbGD7EUIaxPZg1XAr3/preview", description: "Photoelectric effect, wave‑particle duality, quantum theory." },
+  { name: "Temperature", url: "https://drive.google.com/file/d/1pAKVhDmNZ30UG_2NQYqZoNy1HhfRvWQy/preview", description: "Temperature scales, thermal expansion, thermometers." },
+  { name: "Thermodynamics", url: "https://drive.google.com/file/d/1EuQFYFVt7NZDfho8K680KTH2KF3a2dGa/preview", description: "Laws of thermodynamics, heat engines, entropy." }
+];
 
-  // ===== API & CHAT =====
-  const GROQ_API = 'https://api.groq.com/openai/v1/chat/completions';
-  const GROQ_KEY = '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';
-  const SYSTEM = `You are Lumiq, an expert AI physics tutor for A-level and O-level students (CIE, Edexcel, AQA). You explain concepts clearly and step-by-step. Show all working when solving problems. Use simple language. Be encouraging. Keep responses focused and not too long. Format equations clearly using text (e.g. F = ma, v² = u² + 2as). If a student seems stuck, offer a hint before the full solution.`;
+// ===== API =====
+const GROQ_API = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_KEY = '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';
+const SYSTEM = `You are Lumiq, an expert AI physics tutor for A-level and O-level students (CIE, Edexcel, AQA). You explain concepts clearly and step-by-step. Show all working when solving problems. Use simple language. Be encouraging. Keep responses focused and not too long. Format equations clearly using text (e.g. F = ma, v² = u² + 2as). If a student seems stuck, offer a hint before the full solution.`;
 
-  let history = [];
-  let navStack = [];
-  let assistHistory = [];
-  let currentNoteTopic = null;
-  let currentNoteDesc = null;
-  let chatButtonTimer = null;
+let history = [];
+let assistHistory = [];
+let currentNoteTopic = null;
+let currentNoteDesc = null;
 
-  function getDailyCount() { return 0; }
-  function incrementDailyCount() { return 0; }
-  function resetDailyIfNeeded() {}
+// ===== PRICING TOGGLE =====
+const toggle = document.getElementById('billingToggle');
+toggle.addEventListener('change', () => {
+  const isYearly = toggle.checked;
+  document.getElementById('dynamicPrice').innerHTML = isYearly ? '$60 <span>/ year</span>' : '$6 <span>/ month</span>';
+  document.getElementById('dynamicDesc').innerHTML = isYearly ? 'Save $12 (17% off)' : 'Flexible subscription';
+  document.getElementById('yearlyBadge').style.display = isYearly ? 'block' : 'none';
+  document.getElementById('monthlyLabel').classList.toggle('active', !isYearly);
+  document.getElementById('yearlyLabel').classList.toggle('active', isYearly);
+});
 
-  // ===== PRICING TOGGLE =====
-  const toggle = document.getElementById('billingToggle');
-  const dynamicPrice = document.getElementById('dynamicPrice');
-  const dynamicDesc = document.getElementById('dynamicDesc');
-  const yearlyBadge = document.getElementById('yearlyBadge');
-  const monthlyLabel = document.getElementById('monthlyLabel');
-  const yearlyLabel = document.getElementById('yearlyLabel');
+// ===== LOADING =====
+function showLoading(callback) {
+  const overlay = document.getElementById('loadingOverlay');
+  overlay.classList.add('active');
+  setTimeout(() => {
+    callback();
+    setTimeout(() => overlay.classList.remove('active'), 200);
+  }, 300);
+}
 
-  function updatePricing() {
-    const isYearly = toggle.checked;
-    if (isYearly) {
-      dynamicPrice.innerHTML = '$60 <span>/ year</span>';
-      dynamicDesc.innerHTML = 'Save $12 (17% off)';
-      yearlyBadge.style.display = 'block';
-      monthlyLabel.classList.remove('active');
-      yearlyLabel.classList.add('active');
-    } else {
-      dynamicPrice.innerHTML = '$6 <span>/ month</span>';
-      dynamicDesc.innerHTML = 'Flexible subscription';
-      yearlyBadge.style.display = 'none';
-      monthlyLabel.classList.add('active');
-      yearlyLabel.classList.remove('active');
-    }
-  }
+// ===== PAGE VISIBILITY HELPERS =====
+function hideAllPages() {
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('olevelResources').classList.remove('active');
+  document.getElementById('alevelResources').classList.remove('active');
+  document.getElementById('aiTutorPage').classList.remove('active');
+}
 
-  toggle.addEventListener('change', updatePricing);
-  updatePricing();
-
-  // ===== NAVIGATION =====
-  function showLoading(callback) {
-    const overlay = document.getElementById('loadingOverlay');
-    overlay.classList.add('active');
-    setTimeout(() => {
-      callback();
-      setTimeout(() => overlay.classList.remove('active'), 200);
-    }, 300);
-  }
-
-  function showMainContent() {
-    showLoading(() => {
-      document.getElementById('mainContent').style.display = 'block';
-      document.getElementById('olevelResources').classList.remove('active');
-      document.getElementById('alevelResources').classList.remove('active');
-      document.getElementById('aiTutorPage').classList.remove('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-
-  function showResource(level) {
-    if (document.getElementById('mainContent').style.display !== 'none') navStack.push({ type: 'main' });
-    else if (document.getElementById('olevelResources').classList.contains('active')) navStack.push({ type: 'olevel' });
-    else if (document.getElementById('alevelResources').classList.contains('active')) navStack.push({ type: 'alevel' });
-    showLoading(() => {
-      document.getElementById('mainContent').style.display = 'none';
-      if (level === 'olevel') {
-        document.getElementById('olevelResources').classList.add('active');
-        document.getElementById('alevelResources').classList.remove('active');
-      } else if (level === 'alevel') {
-        document.getElementById('alevelResources').classList.add('active');
-        document.getElementById('olevelResources').classList.remove('active');
-        showLevelSelection();
-      }
-      document.getElementById('aiTutorPage').classList.remove('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-
-  function showAITutor() {
-    if (document.getElementById('mainContent').style.display !== 'none') navStack.push({ type: 'main' });
-    else if (document.getElementById('olevelResources').classList.contains('active')) navStack.push({ type: 'olevel' });
-    else if (document.getElementById('alevelResources').classList.contains('active')) navStack.push({ type: 'alevel' });
-    showLoading(() => {
-      document.getElementById('mainContent').style.display = 'none';
-      document.getElementById('olevelResources').classList.remove('active');
-      document.getElementById('alevelResources').classList.remove('active');
-      document.getElementById('aiTutorPage').classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-
-  function showLevelSelection() {
-    document.getElementById('alevelSelection').style.display = 'flex';
-    document.getElementById('asResources').style.display = 'none';
-    document.getElementById('a2Resources').style.display = 'none';
-    resetA2Views();
-  }
-
-  function showResources(level) {
-    navStack.push({ type: 'alevel', level: 'selection' });
-    showLoading(() => {
-      document.getElementById('alevelSelection').style.display = 'none';
-      if (level === 'as') {
-        document.getElementById('asResources').style.display = 'block';
-        document.getElementById('a2Resources').style.display = 'none';
-      } else {
-        document.getElementById('asResources').style.display = 'none';
-        document.getElementById('a2Resources').style.display = 'block';
-      }
-    });
-  }
-
-  function resetA2Views() {
-    const resourceCards = document.getElementById('a2ResourceCards');
-    const library = document.getElementById('notesLibrary');
-    const viewer = document.getElementById('a2PdfViewer');
-    if (resourceCards) resourceCards.style.display = 'flex';
-    if (library) library.style.display = 'none';
-    if (viewer) viewer.style.display = 'none';
-    const iframe = document.getElementById('pdfIframe');
-    if (iframe) iframe.src = '';
-    const downloadLink = document.getElementById('pdfDownloadLink');
-    if (downloadLink) downloadLink.href = '';
-    currentNoteTopic = null;
-    currentNoteDesc = null;
-    hideFloatingChat();
-    const assistWindow = document.getElementById('assistChatWindow');
-    if (assistWindow) assistWindow.classList.remove('active');
-  }
-
-  function scrollToSection(id) {
-    const mainContent = document.getElementById('mainContent');
-    if (mainContent.style.display === 'none') {
-      showLoading(() => {
-        mainContent.style.display = 'block';
-        document.getElementById('olevelResources').classList.remove('active');
-        document.getElementById('alevelResources').classList.remove('active');
-        document.getElementById('aiTutorPage').classList.remove('active');
-        setTimeout(() => document.getElementById(id).scrollIntoView({ behavior: 'smooth' }), 80);
-      });
-    } else {
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-
-  function goBack() {
-    if (navStack.length === 0) { showMainContent(); return; }
-    const last = navStack.pop();
-    if (last.type === 'main') showMainContent();
-    else if (last.type === 'olevel') showResource('olevel');
-    else if (last.type === 'alevel') {
-      if (last.level === 'selection') showLevelSelection();
-      else showResource('alevel');
-    }
-  }
-
-  // ===== NOTES LIBRARY & PDF VIEWER =====
-  function buildTopicLibrary() {
-    const container = document.getElementById('topicGridContainer');
-    if (!container) return;
-    container.innerHTML = '';
-    a2NotesTopics.forEach(topic => {
-      const card = document.createElement('div');
-      card.className = 'topic-card-small';
-      card.innerHTML = `<h3>${topic.name}</h3><p>Click to view notes</p>`;
-      card.addEventListener('click', () => showPdfViewer(topic.url, topic.name, topic.description));
-      container.appendChild(card);
-    });
-  }
-
-  function showNotesLibrary() {
-    navStack.push({ type: 'alevel', level: 'a2resources' });
-    const resourceCards = document.getElementById('a2ResourceCards');
-    const library = document.getElementById('notesLibrary');
-    const viewer = document.getElementById('a2PdfViewer');
-    if (resourceCards) resourceCards.style.display = 'none';
-    if (library) library.style.display = 'block';
-    if (viewer) viewer.style.display = 'none';
-    const iframe = document.getElementById('pdfIframe');
-    if (iframe) iframe.src = '';
-    currentNoteTopic = null;
-    currentNoteDesc = null;
-    hideFloatingChat();
-  }
-
-  function showPdfViewer(url, topicName, topicDesc) {
-    currentNoteTopic = topicName;
-    currentNoteDesc = topicDesc;
-    showFloatingChat();
-
-    navStack.push({ type: 'alevel', level: 'notesLibrary' });
-    const viewer = document.getElementById('a2PdfViewer');
-    const library = document.getElementById('notesLibrary');
-    const resourceCards = document.getElementById('a2ResourceCards');
-    if (library) library.style.display = 'none';
-    if (resourceCards) resourceCards.style.display = 'none';
-    if (viewer) viewer.style.display = 'flex';
-    const iframe = document.getElementById('pdfIframe');
-    iframe.src = url;
-    const downloadLink = document.getElementById('pdfDownloadLink');
-    downloadLink.href = url;
-  }
-
-  function closePdfViewerAndShowLibrary() {
-    const viewer = document.getElementById('a2PdfViewer');
-    const library = document.getElementById('notesLibrary');
-    const iframe = document.getElementById('pdfIframe');
-    if (iframe) iframe.src = '';
-    if (viewer) viewer.style.display = 'none';
-    if (library) library.style.display = 'block';
-    if (navStack.length > 0 && navStack[navStack.length-1].level === 'notesLibrary') navStack.pop();
-    currentNoteTopic = null;
-    currentNoteDesc = null;
-    hideFloatingChat();
-    const assistWindow = document.getElementById('assistChatWindow');
-    if (assistWindow) assistWindow.classList.remove('active');
-  }
-
-  // ===== FLOATING CHAT ASSISTANT FUNCTIONS =====
-  function showFloatingChat() {
-    const chatContainer = document.getElementById('floatingChat');
-    if (!chatContainer) return;
-    chatContainer.classList.add('active');
-    if (chatButtonTimer) clearTimeout(chatButtonTimer);
-    chatButtonTimer = setTimeout(() => {
-      // no auto‑collapse; we keep it until note is closed
-    }, 5000);
-  }
-
-  function hideFloatingChat() {
-    const chatContainer = document.getElementById('floatingChat');
-    if (chatContainer) chatContainer.classList.remove('active');
-    if (chatButtonTimer) clearTimeout(chatButtonTimer);
-  }
-
-  function toggleAssistChat() {
-    const windowEl = document.getElementById('assistChatWindow');
-    if (windowEl.classList.contains('active')) {
-      windowEl.classList.remove('active');
-    } else {
-      windowEl.classList.add('active');
-    }
-  }
-
-  async function sendAssistMessage() {
-    const input = document.getElementById('assistInput');
-    const text = input.value.trim();
-    if (!text) return;
-    input.value = '';
-    input.style.height = 'auto';
-
-    const messagesDiv = document.getElementById('assistMessages');
-    const userMsg = document.createElement('div');
-    userMsg.className = 'msg user';
-    userMsg.innerHTML = `<p class="msg-name">You</p><div class="bubble user">${text}</div>`;
-    messagesDiv.appendChild(userMsg);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-    assistHistory.push({ role: 'user', content: text });
-
-    const typing = document.createElement('div');
-    typing.className = 'msg ai';
-    typing.id = 'assistTyping';
-    typing.innerHTML = `<p class="msg-name">Lumiq</p><div class="bubble ai"><span class="typing-cursor"></span></div>`;
-    messagesDiv.appendChild(typing);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-    let context = '';
-    if (currentNoteTopic) {
-      context = `The user is currently viewing notes on "${currentNoteTopic}". ${currentNoteDesc} Answer questions related to this topic if relevant.`;
-    } else {
-      context = 'The user is not viewing a specific note. Answer general physics questions for A/O level students.';
-    }
-    const fullSystem = `You are Lumiq, an expert AI physics tutor for A-level and O-level students. ${context} Use simple language and be encouraging.`;
-
-    try {
-      const res = await fetch(GROQ_API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY },
-        body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
-          max_tokens: 600,
-          messages: [{ role: 'system', content: fullSystem }, ...assistHistory]
-        })
-      });
-      const data = await res.json();
-      const reply = data.choices?.[0]?.message?.content || 'Sorry, I could not generate a response. Please try again.';
-      assistHistory.push({ role: 'assistant', content: reply });
-      document.getElementById('assistTyping')?.remove();
-      const aiMsg = document.createElement('div');
-      aiMsg.className = 'msg ai';
-      aiMsg.innerHTML = `<p class="msg-name">Lumiq</p><div class="bubble ai">${reply}</div>`;
-      messagesDiv.appendChild(aiMsg);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    } catch (e) {
-      document.getElementById('assistTyping')?.remove();
-      const errMsg = document.createElement('div');
-      errMsg.className = 'msg ai';
-      errMsg.innerHTML = `<p class="msg-name">Lumiq</p><div class="bubble ai">Connection error. Please try again.</div>`;
-      messagesDiv.appendChild(errMsg);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
-  }
-
-  // ===== CHAT FUNCTIONS (main AI) =====
-  async function typeMessage(text, bubbleElement) {
-    bubbleElement.innerHTML = '';
-    const words = text.split(/(\s+)/);
-    for (let i = 0; i < words.length; i++) {
-      bubbleElement.innerHTML += words[i];
-      await new Promise(resolve => setTimeout(resolve, 30));
-      document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
-    }
-  }
-
-  function addMessage(text, role) {
-    const box = document.getElementById('chatMessages');
-    const wrap = document.createElement('div');
-    wrap.className = 'msg ' + (role === 'user' ? 'user' : 'ai');
-    const name = document.createElement('p');
-    name.className = 'msg-name';
-    name.textContent = role === 'user' ? 'You' : 'Lumiq';
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble ' + (role === 'user' ? 'user' : 'ai');
-    wrap.appendChild(name);
-    wrap.appendChild(bubble);
-    box.appendChild(wrap);
-    box.scrollTop = box.scrollHeight;
-    if (role === 'user') bubble.textContent = text;
-    else typeMessage(text, bubble);
-    return wrap;
-  }
-
-  function addTypingPlaceholder() {
-    const box = document.getElementById('chatMessages');
-    const wrap = document.createElement('div');
-    wrap.className = 'msg ai';
-    wrap.id = 'typingPlaceholder';
-    const name = document.createElement('p');
-    name.className = 'msg-name';
-    name.textContent = 'Lumiq';
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble ai';
-    bubble.innerHTML = '<span class="typing-cursor"></span>';
-    wrap.appendChild(name);
-    wrap.appendChild(bubble);
-    box.appendChild(wrap);
-    box.scrollTop = box.scrollHeight;
-  }
-
-  function removeTypingPlaceholder() {
-    const el = document.getElementById('typingPlaceholder');
-    if (el) el.remove();
-  }
-
-  async function sendMessage() {
-    const input = document.getElementById('userInput');
-    const text = input.value.trim();
-    if (!text) return;
-    input.value = '';
-    input.style.height = 'auto';
-    document.getElementById('quickBtns').style.display = 'none';
-    addMessage(text, 'user');
-    history.push({ role: 'user', content: text });
-    const btn = document.getElementById('sendBtn');
-    btn.disabled = true;
-    addTypingPlaceholder();
-    try {
-      const res = await fetch(GROQ_API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY },
-        body: JSON.stringify({ model: 'llama-3.3-70b-versatile', max_tokens: 800, messages: [{ role: 'system', content: SYSTEM }, ...history] })
-      });
-      const data = await res.json();
-      removeTypingPlaceholder();
-      const reply = data.choices?.[0]?.message?.content || 'Sorry, something went wrong. Please try again.';
-      history.push({ role: 'assistant', content: reply });
-      addMessage(reply, 'ai');
-    } catch (e) {
-      removeTypingPlaceholder();
-      addMessage('Connection error. Please check your internet and try again.', 'ai');
-    }
-    btn.disabled = false;
-    input.focus();
-  }
-
-  function quickAsk(text) {
-    document.getElementById('userInput').value = text;
-    sendMessage();
-  }
-
-  // ===== ANIMATIONS =====
-  function initScrollAnimations() {
-    const fadeElements = document.querySelectorAll('.fade-up');
-    const staggerSections = document.querySelectorAll('.stagger-children');
-    function checkVisibility() {
-      fadeElements.forEach(el => {
-        if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('visible');
-      });
-      staggerSections.forEach(section => {
-        if (section.getBoundingClientRect().top < window.innerHeight - 100) section.classList.add('visible');
-      });
-    }
-    window.addEventListener('scroll', checkVisibility);
-    checkVisibility();
-  }
-
-  function addAnimationClasses() {
-    const heroTitle = document.querySelector('.hero h1');
-    const heroSub = document.querySelector('.hero-sub');
-    const heroBtns = document.querySelector('.hero-btns');
-    const heroStats = document.querySelector('.hero-stats');
-    if (heroTitle) heroTitle.classList.add('fade-up');
-    if (heroSub) heroSub.classList.add('fade-up');
-    if (heroBtns) heroBtns.classList.add('fade-up');
-    if (heroStats) heroStats.classList.add('fade-up');
-    const topicsGrid = document.querySelector('.topics-grid');
-    if (topicsGrid) topicsGrid.classList.add('stagger-children');
-    const pricingGrid = document.querySelector('.pricing-grid');
-    if (pricingGrid) pricingGrid.classList.add('stagger-children');
-    const a2Cards = document.getElementById('a2ResourceCards');
-    if (a2Cards) a2Cards.classList.add('stagger-children');
-  }
-
-  // Cursor ring
-  function initCursorRing() {
-    const ring = document.createElement('div');
-    ring.className = 'cursor-glow';
-    document.body.appendChild(ring);
-    document.addEventListener('mousemove', (e) => {
-      ring.style.left = e.clientX + 'px';
-      ring.style.top = e.clientY + 'px';
-      ring.style.opacity = '1';
-    });
-    document.addEventListener('mouseleave', () => { ring.style.opacity = '0'; });
-
-    const interactive = 'a, button, .topic-card, .price-card, .level-card, .resource-link, .quick-btn, .chat-button, .back-btn, .send-btn, .plan-btn, .nav-cta, .viewer-back-btn';
-    document.body.addEventListener('mouseover', (e) => {
-      if (e.target.matches(interactive)) {
-        ring.style.width = '48px';
-        ring.style.height = '48px';
-        ring.style.borderColor = 'var(--accent2)';
-        ring.style.boxShadow = '0 0 12px var(--accent2)';
-      }
-    });
-    document.body.addEventListener('mouseout', (e) => {
-      if (e.target.matches(interactive)) {
-        ring.style.width = '40px';
-        ring.style.height = '40px';
-        ring.style.borderColor = 'var(--accent2)';
-        ring.style.boxShadow = '0 0 6px var(--accent2)';
-      }
-    });
-
-    document.body.addEventListener('click', (e) => {
-      if (e.target.matches(interactive)) {
-        ring.classList.add('ripple');
-        setTimeout(() => ring.classList.remove('ripple'), 300);
-      }
-    });
-  }
-
-  // Page transition wrapper
-  let isTransitioning = false;
-  function transitionToPage(callback) {
-    if (isTransitioning) return;
-    isTransitioning = true;
-    const overlay = document.createElement('div');
-    overlay.className = 'page-transition';
-    document.body.appendChild(overlay);
-    setTimeout(() => overlay.classList.add('active'), 10);
-    setTimeout(() => {
-      callback();
-      setTimeout(() => {
-        overlay.classList.remove('active');
-        setTimeout(() => { overlay.remove(); isTransitioning = false; }, 250);
-      }, 100);
-    }, 200);
-  }
-
-  const originalShowMainContent = showMainContent;
-  const originalShowResource = showResource;
-  const originalShowAITutor = showAITutor;
-
-  showMainContent = function() { transitionToPage(() => originalShowMainContent()); };
-  showResource = function(level) { transitionToPage(() => originalShowResource(level)); };
-  showAITutor = function() { transitionToPage(() => originalShowAITutor()); };
-
-  // ===== EVENT LISTENERS =====
-  document.getElementById('logoHome').addEventListener('click', showMainContent);
-  document.getElementById('navHome').addEventListener('click', showMainContent);
-  document.getElementById('navPricing').addEventListener('click', () => scrollToSection('pricing'));
-  document.getElementById('navAskAI').addEventListener('click', showAITutor);
-  document.getElementById('launchAITutorBtn').addEventListener('click', showAITutor);
-  document.getElementById('scrollToPricingBtn').addEventListener('click', () => scrollToSection('pricing'));
-  document.getElementById('trialBubble').addEventListener('click', () => scrollToSection('pricing'));
-  document.getElementById('freeTrialCardBtn').addEventListener('click', () => window.open('https://lumiqstudy.gumroad.com/l/mvysxi', '_blank'));
-  document.getElementById('subscribeBtn').addEventListener('click', () => window.open('https://lumiqstudy.gumroad.com/l/mvysxi', '_blank'));
-
-  document.getElementById('olevelResourceNav').addEventListener('click', (e) => { e.preventDefault(); showResource('olevel'); });
-  document.getElementById('alevelResourceNav').addEventListener('click', (e) => { e.preventDefault(); showResource('alevel'); });
-  document.getElementById('backToMainFromOlevel').addEventListener('click', goBack);
-  document.getElementById('backToMainFromAlevel').addEventListener('click', goBack);
-  document.getElementById('backToMainFromAI').addEventListener('click', goBack);
-
-  const closePdfBtn = document.getElementById('closePdfViewerFromLibrary');
-  if (closePdfBtn) closePdfBtn.addEventListener('click', closePdfViewerAndShowLibrary);
-
-  document.querySelectorAll('#alevelSelection .level-card').forEach(card => {
-    card.addEventListener('click', () => { showResources(card.getAttribute('data-level')); });
+// ===== MAIN NAVIGATION =====
+function showMainContent() {
+  showLoading(() => {
+    hideAllPages();
+    document.getElementById('mainContent').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+}
 
-  const openLibraryBtn = document.getElementById('openNotesLibraryBtn');
-  if (openLibraryBtn) openLibraryBtn.addEventListener('click', showNotesLibrary);
+function showOlevel() {
+  showLoading(() => {
+    hideAllPages();
+    document.getElementById('olevelResources').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
 
-  // Floating chat events
-  const chatButton = document.getElementById('chatButton');
-  const closeAssist = document.getElementById('closeAssistChat');
-  const sendAssist = document.getElementById('sendAssistBtn');
-  const assistInput = document.getElementById('assistInput');
+function showAlevel() {
+  showLoading(() => {
+    hideAllPages();
+    document.getElementById('alevelResources').classList.add('active');
+    // Always start at state 1 (level selection) when coming from nav
+    setAlevelState(1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
 
-  if (chatButton) {
-    chatButton.addEventListener('click', toggleAssistChat);
-  }
-  if (closeAssist) closeAssist.addEventListener('click', toggleAssistChat);
-  if (sendAssist) sendAssist.addEventListener('click', sendAssistMessage);
-  if (assistInput) {
-    assistInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendAssistMessage();
-      }
+function showAITutor() {
+  showLoading(() => {
+    hideAllPages();
+    document.getElementById('aiTutorPage').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+function scrollToSection(id) {
+  const mainContent = document.getElementById('mainContent');
+  if (mainContent.style.display === 'none') {
+    showLoading(() => {
+      hideAllPages();
+      mainContent.style.display = 'block';
+      setTimeout(() => document.getElementById(id).scrollIntoView({ behavior: 'smooth' }), 80);
     });
+  } else {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
   }
+}
 
-  buildTopicLibrary();
-  addAnimationClasses();
-  initScrollAnimations();
-  initCursorRing();
+// ===== A-LEVEL STATE MACHINE =====
+// States: 1=Level Selection, 2=AS, 3=A2 Cards, 4=Notes Library, 5=PDF
+function setAlevelState(state) {
+  document.getElementById('alevelState1').style.display = state === 1 ? 'block' : 'none';
+  document.getElementById('alevelState2AS').style.display = state === 2 ? 'block' : 'none';
+  document.getElementById('alevelState3A2').style.display = state === 3 ? 'block' : 'none';
+  document.getElementById('alevelState4Library').style.display = state === 4 ? 'block' : 'none';
+  document.getElementById('alevelState5PDF').style.display = state === 5 ? 'block' : 'none';
 
-  showMainContent();
-  resetDailyIfNeeded();
+  // If leaving PDF state, clear iframe and hide ring
+  if (state !== 5) {
+    document.getElementById('pdfIframe').src = '';
+    document.body.classList.remove('pdf-hover');
+    hideFloatingChat();
+    document.getElementById('assistChatWindow').classList.remove('active');
+  }
+}
+
+// ===== BACK BUTTON WIRING (simple, explicit — no stack needed) =====
+// O-Level: back to home
+document.getElementById('backFromOlevel').addEventListener('click', showMainContent);
+
+// A-Level state back buttons
+document.getElementById('backFromAlevelState1').addEventListener('click', showMainContent);    // State 1 → Home
+document.getElementById('backFromAS').addEventListener('click', () => setAlevelState(1));      // State 2 → State 1
+document.getElementById('backFromA2').addEventListener('click', () => setAlevelState(1));      // State 3 → State 1
+document.getElementById('backFromLibrary').addEventListener('click', () => setAlevelState(3)); // State 4 → State 3
+document.getElementById('backFromPDF').addEventListener('click', () => setAlevelState(4));     // State 5 → State 4
+
+// AI tutor: back to home
+document.getElementById('backFromAI').addEventListener('click', showMainContent);
+
+// ===== NOTES LIBRARY =====
+function buildTopicLibrary() {
+  const container = document.getElementById('topicGridContainer');
+  container.innerHTML = '';
+  a2NotesTopics.forEach(topic => {
+    const card = document.createElement('div');
+    card.className = 'topic-card-small';
+    card.innerHTML = `<h3>${topic.name}</h3><p>Click to view notes</p>`;
+    card.addEventListener('click', () => showPdfViewer(topic.url, topic.name, topic.description));
+    container.appendChild(card);
+  });
+}
+
+function showPdfViewer(url, topicName, topicDesc) {
+  currentNoteTopic = topicName;
+  currentNoteDesc = topicDesc;
+  document.getElementById('pdfIframe').src = url;
+  document.getElementById('pdfDownloadLink').href = url;
+  setAlevelState(5);
+  showFloatingChat();
+
+  // Cursor ring: hide when over pdf-viewer (including iframe), show when leaving
+  const pdfViewer = document.getElementById('a2PdfViewer');
+  pdfViewer.addEventListener('mouseenter', () => document.body.classList.add('pdf-hover'));
+  pdfViewer.addEventListener('mouseleave', () => document.body.classList.remove('pdf-hover'));
+}
+
+// ===== FLOATING CHAT =====
+function showFloatingChat() { document.getElementById('floatingChat').classList.add('active'); }
+function hideFloatingChat() { document.getElementById('floatingChat').classList.remove('active'); }
+
+function toggleAssistChat() {
+  document.getElementById('assistChatWindow').classList.toggle('active');
+}
+
+async function sendAssistMessage() {
+  const input = document.getElementById('assistInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  input.style.height = 'auto';
+  const messagesDiv = document.getElementById('assistMessages');
+  const userMsg = document.createElement('div');
+  userMsg.className = 'msg user';
+  userMsg.innerHTML = `<p class="msg-name">You</p><div class="bubble user">${text}</div>`;
+  messagesDiv.appendChild(userMsg);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  assistHistory.push({ role: 'user', content: text });
+  const typing = document.createElement('div');
+  typing.className = 'msg ai'; typing.id = 'assistTyping';
+  typing.innerHTML = `<p class="msg-name">Lumiq</p><div class="bubble ai"><span class="typing-cursor"></span></div>`;
+  messagesDiv.appendChild(typing);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  const context = currentNoteTopic
+    ? `The user is viewing notes on "${currentNoteTopic}". ${currentNoteDesc}`
+    : 'Answer general physics questions for A/O level students.';
+  try {
+    const res = await fetch(GROQ_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY },
+      body: JSON.stringify({ model: 'llama-3.3-70b-versatile', max_tokens: 600, messages: [{ role: 'system', content: `You are Lumiq, an expert AI physics tutor. ${context} Be encouraging.` }, ...assistHistory] })
+    });
+    const data = await res.json();
+    const reply = data.choices?.[0]?.message?.content || 'Sorry, please try again.';
+    assistHistory.push({ role: 'assistant', content: reply });
+    document.getElementById('assistTyping')?.remove();
+    const aiMsg = document.createElement('div');
+    aiMsg.className = 'msg ai';
+    aiMsg.innerHTML = `<p class="msg-name">Lumiq</p><div class="bubble ai">${reply}</div>`;
+    messagesDiv.appendChild(aiMsg);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  } catch(e) {
+    document.getElementById('assistTyping')?.remove();
+    const err = document.createElement('div');
+    err.className = 'msg ai';
+    err.innerHTML = `<p class="msg-name">Lumiq</p><div class="bubble ai">Connection error. Please try again.</div>`;
+    messagesDiv.appendChild(err);
+  }
+}
+
+// ===== MAIN AI CHAT =====
+async function typeMessage(text, bubbleElement) {
+  bubbleElement.innerHTML = '';
+  const words = text.split(/(\s+)/);
+  for (let i = 0; i < words.length; i++) {
+    bubbleElement.innerHTML += words[i];
+    await new Promise(r => setTimeout(r, 30));
+    document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+  }
+}
+
+function addMessage(text, role) {
+  const box = document.getElementById('chatMessages');
+  const wrap = document.createElement('div');
+  wrap.className = 'msg ' + (role === 'user' ? 'user' : 'ai');
+  const name = document.createElement('p'); name.className = 'msg-name';
+  name.textContent = role === 'user' ? 'You' : 'Lumiq';
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble ' + (role === 'user' ? 'user' : 'ai');
+  wrap.appendChild(name); wrap.appendChild(bubble); box.appendChild(wrap);
+  box.scrollTop = box.scrollHeight;
+  if (role === 'user') bubble.textContent = text;
+  else typeMessage(text, bubble);
+}
+
+function addTypingPlaceholder() {
+  const box = document.getElementById('chatMessages');
+  const wrap = document.createElement('div'); wrap.className = 'msg ai'; wrap.id = 'typingPlaceholder';
+  const name = document.createElement('p'); name.className = 'msg-name'; name.textContent = 'Lumiq';
+  const bubble = document.createElement('div'); bubble.className = 'bubble ai';
+  bubble.innerHTML = '<span class="typing-cursor"></span>';
+  wrap.appendChild(name); wrap.appendChild(bubble); box.appendChild(wrap);
+  box.scrollTop = box.scrollHeight;
+}
+
+function removeTypingPlaceholder() { document.getElementById('typingPlaceholder')?.remove(); }
+
+async function sendMessage() {
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = ''; input.style.height = 'auto';
+  document.getElementById('quickBtns').style.display = 'none';
+  addMessage(text, 'user');
+  history.push({ role: 'user', content: text });
+  const btn = document.getElementById('sendBtn'); btn.disabled = true;
+  addTypingPlaceholder();
+  try {
+    const res = await fetch(GROQ_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY },
+      body: JSON.stringify({ model: 'llama-3.3-70b-versatile', max_tokens: 800, messages: [{ role: 'system', content: SYSTEM }, ...history] })
+    });
+    const data = await res.json();
+    removeTypingPlaceholder();
+    const reply = data.choices?.[0]?.message?.content || 'Sorry, something went wrong.';
+    history.push({ role: 'assistant', content: reply });
+    addMessage(reply, 'ai');
+  } catch(e) {
+    removeTypingPlaceholder();
+    addMessage('Connection error. Please check your internet and try again.', 'ai');
+  }
+  btn.disabled = false; input.focus();
+}
+
+function quickAsk(text) { document.getElementById('userInput').value = text; sendMessage(); }
+
+// ===== CURSOR RING =====
+function initCursorRing() {
+  const ring = document.createElement('div');
+  ring.className = 'cursor-glow';
+  document.body.appendChild(ring);
+
+  document.addEventListener('mousemove', (e) => {
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
+    // Only show if not in pdf-hover mode
+    if (!document.body.classList.contains('pdf-hover')) {
+      ring.style.opacity = '1';
+    }
+  });
+  document.addEventListener('mouseleave', () => { ring.style.opacity = '0'; });
+
+  const interactive = 'a, button, .topic-card, .price-card, .level-card, .resource-link, .quick-btn, .chat-button, .back-btn, .send-btn, .plan-btn, .nav-cta, .viewer-back-btn, .topic-card-small';
+  document.body.addEventListener('mouseover', (e) => {
+    if (e.target.closest(interactive)) {
+      ring.style.width = '52px'; ring.style.height = '52px';
+      ring.style.boxShadow = '0 0 14px var(--accent2)';
+    }
+  });
+  document.body.addEventListener('mouseout', (e) => {
+    if (e.target.closest(interactive)) {
+      ring.style.width = '40px'; ring.style.height = '40px';
+      ring.style.boxShadow = '0 0 6px var(--accent2)';
+    }
+  });
+}
+
+// ===== SCROLL ANIMATIONS =====
+function initScrollAnimations() {
+  const fadeEls = document.querySelectorAll('.fade-up');
+  const staggerEls = document.querySelectorAll('.stagger-children');
+  function check() {
+    fadeEls.forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('visible'); });
+    staggerEls.forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('visible'); });
+  }
+  window.addEventListener('scroll', check); check();
+}
+
+function addAnimationClasses() {
+  ['h1', '.hero-sub', '.hero-btns', '.hero-stats'].forEach(sel => {
+    const el = document.querySelector('.hero ' + sel) || document.querySelector(sel);
+    if (el) el.classList.add('fade-up');
+  });
+  const tg = document.querySelector('.topics-grid'); if (tg) tg.classList.add('stagger-children');
+  const pg = document.querySelector('.pricing-grid'); if (pg) pg.classList.add('stagger-children');
+}
+
+// ===== EVENT LISTENERS =====
+document.getElementById('logoHome').addEventListener('click', showMainContent);
+document.getElementById('navHome').addEventListener('click', showMainContent);
+document.getElementById('navPricing').addEventListener('click', () => scrollToSection('pricing'));
+document.getElementById('navAskAI').addEventListener('click', showAITutor);
+document.getElementById('launchAITutorBtn').addEventListener('click', showAITutor);
+document.getElementById('scrollToPricingBtn').addEventListener('click', () => scrollToSection('pricing'));
+document.getElementById('trialBubble').addEventListener('click', () => scrollToSection('pricing'));
+document.getElementById('freeTrialCardBtn').addEventListener('click', () => window.open('https://lumiqstudy.gumroad.com/l/mvysxi', '_blank'));
+document.getElementById('subscribeBtn').addEventListener('click', () => window.open('https://lumiqstudy.gumroad.com/l/mvysxi', '_blank'));
+
+document.getElementById('olevelResourceNav').addEventListener('click', (e) => { e.preventDefault(); showOlevel(); });
+document.getElementById('alevelResourceNav').addEventListener('click', (e) => { e.preventDefault(); showAlevel(); });
+
+// A-Level level card clicks
+document.querySelectorAll('#alevelSelection .level-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const level = card.getAttribute('data-level');
+    setAlevelState(level === 'as' ? 2 : 3);
+  });
+});
+
+document.getElementById('openNotesLibraryBtn').addEventListener('click', () => setAlevelState(4));
+
+document.getElementById('chatButton').addEventListener('click', toggleAssistChat);
+document.getElementById('closeAssistChat').addEventListener('click', toggleAssistChat);
+document.getElementById('sendAssistBtn').addEventListener('click', sendAssistMessage);
+document.getElementById('assistInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendAssistMessage(); }
+});
+
+buildTopicLibrary();
+addAnimationClasses();
+initScrollAnimations();
+initCursorRing();
+showMainContent();
 </script>
 </body>
 </html>
